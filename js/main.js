@@ -19,12 +19,13 @@ $(function () {
 
     ***************************/
     const options = {
-        containers: ['#swupMain', '#swupMenu'],
+        containers: ['#swupMain'],
         animateHistoryBrowsing: true,
         linkSelector: 'a:not([data-no-swup])',
         animationSelector: '[class="mil-main-transition"]'
     };
     const swup = new Swup(options);
+
 
     /***************************
 
@@ -56,13 +57,13 @@ $(function () {
 
     timeline.fromTo(
         ".mil-animation-1 .mil-h3", {
-            y: "30px",
-            opacity: 0
-        }, {
-            y: "0px",
-            opacity: 1,
-            stagger: 0.4
-        },
+        y: "30px",
+        opacity: 0
+    }, {
+        y: "0px",
+        opacity: 1,
+        stagger: 0.4
+    },
     );
 
     timeline.to(".mil-animation-1 .mil-h3", {
@@ -488,7 +489,7 @@ $(function () {
             "zoom",
             "fullScreen",
             "close"
-          ],
+        ],
         loop: false,
         protect: true
     });
@@ -925,11 +926,11 @@ $(function () {
         ***************************/
         $('[data-fancybox="gallery"]').fancybox({
             buttons: [
-            "slideShow",
-            "zoom",
-            "fullScreen",
-            "close"
-          ],
+                "slideShow",
+                "zoom",
+                "fullScreen",
+                "close"
+            ],
             loop: false,
             protect: true
         });
