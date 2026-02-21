@@ -3256,7 +3256,7 @@ revievs
 }
 .mil-about-card {
   width: 100%;
-  min-height: 70vh;
+  min-height: 50vh;
   display: grid;
   grid-template-columns: 40% 60%;
   gap: 20px;
