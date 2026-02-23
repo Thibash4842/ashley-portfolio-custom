@@ -19,7 +19,7 @@ $(function () {
 
     ***************************/
     const options = {
-        containers: ['#swupMain'],
+        containers: ['#swupMain', '#swupMenu'],
         animateHistoryBrowsing: true,
         linkSelector: 'a:not([data-no-swup])',
         animationSelector: '[class="mil-main-transition"]'
@@ -370,6 +370,8 @@ $(function () {
         $('.mil-menu').toggleClass('mil-active');
         $('.mil-menu-frame').toggleClass('mil-active');
     });
+
+
     /***************************
 
     main menu
@@ -381,6 +383,31 @@ $(function () {
         $(this).toggleClass('mil-active');
         $(this).next().toggleClass('mil-active');
     });
+
+
+
+    const menuBtn = document.querySelector(".mil-menu-btn");
+    const sections = document.querySelectorAll(".section");
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                if (entry.target.classList.contains("dark")) {
+                    menuBtn.classList.add("white");
+                    menuBtn.classList.remove("black");
+                } else {
+                    menuBtn.classList.add("black");
+                    menuBtn.classList.remove("white");
+                }
+            }
+        });
+    }, { threshold: 0.6 });
+
+    sections.forEach(section => {
+        observer.observe(section);
+    });
+
+
     /***************************
 
     progressbar
@@ -541,6 +568,44 @@ $(function () {
         },
     });
 
+    var swiper = new Swiper('.mil-infinite-vertical-down', {
+        direction: "vertical",
+        slidesPerView: 2,
+        spaceBetween: 30,
+        speed: 5000,
+        autoplay: true,
+        autoplay: {
+            delay: 0,
+            reverseDirection: true
+        },
+        loop: true,
+        freeMode: true,
+        breakpoints: {
+            992: {
+                slidesPerView: 3,
+            },
+        },
+    });
+
+    var swiper = new Swiper('.mil-infinite-vertical-up', {
+        direction: "vertical",
+        slidesPerView: 2,
+        spaceBetween: 30,
+        speed: 5000,
+        autoplay: true,
+        autoplay: {
+            delay: 0,
+            // reverseDirection: true
+        },
+        loop: true,
+        freeMode: true,
+        breakpoints: {
+            992: {
+                slidesPerView: 3,
+            },
+        },
+    });
+
     /***************************
 
     portfolio slider
@@ -606,6 +671,7 @@ $(function () {
             },
         },
     });
+
 
     /*----------------------------------------------------------
     ------------------------------------------------------------
