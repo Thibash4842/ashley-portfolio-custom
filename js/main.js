@@ -571,25 +571,21 @@ $(function () {
 
     var swiper = new Swiper('.mil-infinite-vertical-down', {
         direction: "vertical",
-        slidesPerView: 2,
+        slidesPerView: 4,
         spaceBetween: 30,
-        speed: 7000,
+        speed: 8000,
         loop: true,
-        autoplay:true,
         autoplay: {
             delay: 0,
-            reverseDirection: true,
             disableOnInteraction: false,
-            pauseOnMouseEnter: false,
+            reverseDirection: true,
         },
         freeMode: true,
+        freeModeMomentum: false,
         allowTouchMove: false,
-        simulateTouch: false,
-        slidesPerView: 4,   // small screen
         breakpoints: {
-            
-            992: {         // large screen
-                slidesPerView: 3, 
+            992: {
+                slidesPerView: 3,
             },
         },
     });
@@ -597,20 +593,19 @@ $(function () {
 
     var swiper = new Swiper('.mil-infinite-vertical-up', {
         direction: "vertical",
-        slidesPerView: 2,
+        // slidesPerView: 2,
         spaceBetween: 30,
-        speed: 7000,
+        speed: 8000,
         loop: true,
         autoplay:true,
         autoplay: {
             delay: 0,
             disableOnInteraction: false,
-            pauseOnMouseEnter: false,
         },
         freeMode: true,
         allowTouchMove: false,
         simulateTouch: false,
-         slidesPerView: 4,
+        slidesPerView: 4,
         breakpoints: {
             
             992: {
@@ -1061,23 +1056,20 @@ $(function () {
             },
         });
 
-        var swiper = new Swiper('.mil-infinite-vertical-down', {
+    var swiper = new Swiper('.mil-infinite-vertical-down', {
         direction: "vertical",
-        slidesPerView: 2,
+        slidesPerView: 4,
         spaceBetween: 30,
-        speed: 7000,
+        speed: 8000,
         loop: true,
-        autoplay:true,
         autoplay: {
-            delay: 1,
-            reverseDirection: true,
+            delay: 0,
             disableOnInteraction: false,
-            pauseOnMouseEnter: false,
+            reverseDirection: true,
         },
         freeMode: true,
+        freeModeMomentum: false,
         allowTouchMove: false,
-        simulateTouch: false,
-        slidesPerView: 4,
         breakpoints: {
             992: {
                 slidesPerView: 3,
@@ -1088,15 +1080,14 @@ $(function () {
 
     var swiper = new Swiper('.mil-infinite-vertical-up', {
         direction: "vertical",
-        slidesPerView: 2,
+        // slidesPerView: 2,
         spaceBetween: 30,
-        speed: 7000,
+        speed: 8000,
         loop: true,
         autoplay:true,
         autoplay: {
-            delay: 1,
+            delay: 0,
             disableOnInteraction: false,
-            pauseOnMouseEnter: false,
         },
         freeMode: true,
         allowTouchMove: false,
