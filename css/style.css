@@ -4688,6 +4688,7 @@ portfolio
   border-radius: 20px;
   overflow: hidden;
   height: 400px;
+  background-color: black;
 }
 
 .mil-port-cover-frame>img {
@@ -4707,7 +4708,7 @@ portfolio
   position: absolute;
   top: -40px;
   right: 14px;
-  box-shadow: inset 0px 0px 30px #fbfbfb;
+  background-color: #fff;
   border: 1px solid #bebebe;
   padding: 3px 10px;
   border-radius: 6px;
@@ -4715,7 +4716,7 @@ portfolio
 }
 
 .mil-port-descr-cover {
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.8);
   box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.3);
   width: 95%;
   margin: 14px;
@@ -4725,6 +4726,7 @@ portfolio
   align-items: center;
   padding: 10px;
   border-radius: 10px;
+  color: black;
 }
 
 .mil-port-descr-cover>.mil-label {
@@ -4734,13 +4736,14 @@ portfolio
 }
 
 .mil-port-descr-cover>.btn {
-  box-shadow: inset 0px 0px 30px #fbfbfb;
+  background-color: #fff;
   font-weight: 600;
-  padding: 3px 10px;
-  border: 1px solid #d9d9d9;
+  padding: 3px 14px;
+  border: 1px solid #b7b7b7;
+  box-shadow: 0px 0px 10px rgb(130, 130, 130);
   border-radius: 6px;
   font-size: 14px;
-  color: #3b3b3b;
+  color: black;
 }
 
 .mil-portfolio-card:hover>.mil-port-cover-frame {
@@ -4750,6 +4753,7 @@ portfolio
 .mil-portfolio-card:hover>.mil-port-cover-frame>img {
   transform: scale(1.2);
 }
+
 
 .mil-portfolio-card:hover>h6 {
   top: 14px;
