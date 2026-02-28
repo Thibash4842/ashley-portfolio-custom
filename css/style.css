@@ -4630,6 +4630,87 @@ portfolio
   }
 }
 
+/* -------------thibash write to code about portfolio---------start */
+.mil-portfolio-card {
+  display: block;
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  height: 400px;
+}
+
+.mil-port-cover-frame > img {
+  width: 100%;
+  height: 400px;
+  transition: all 0.20s linear;
+  object-position: center;
+}
+.mil-port-descr-cover {
+  position: absolute;
+  bottom: 10px;
+  left: 10p;
+}
+
+.mil-portfolio-card > h6 {
+  position: absolute;
+  top: -40px;
+  right: 14px;
+  box-shadow: inset 0px 0px 30px #fbfbfb;
+  border: 1px solid #bebebe;
+  padding: 3px 10px;
+  border-radius: 6px;
+  transition: all 0.20s linear;
+}
+
+.mil-port-descr-cover {
+  /* background-color: rgba(255, 255, 255, 0.3); */
+  box-shadow: inset 0px 0px 30px #fbfbfb;
+  width: 95%;
+  margin: 14px;
+  bottom: 0%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-radius: 10px;
+}
+.mil-port-descr-cover > .mil-label {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.mil-port-descr-cover > .btn {
+  box-shadow:inset 0px 0px 30px #fbfbfb;
+  font-weight: 600;
+  padding: 3px 10px;
+  border: 1px solid #bebebe;
+  border-radius: 6px;
+  font-size: 14px;
+}
+.mil-portfolio-card:hover > .mil-port-cover-frame {
+  border-radius: 16px;
+}
+
+.mil-portfolio-card:hover > .mil-port-cover-frame > img {
+  transform: scale(1.2);
+}
+
+.mil-portfolio-card:hover > h6 {
+  top: 14px;
+}
+
+@media screen and (max-width : 768px) {
+  .mil-portfolio-card {
+  height: 330px;
+}
+
+.mil-port-cover-frame > img {
+  height: 330px;
+}
+}
+
+/* -------------thibash write to code about portfolio---------end */
+
 /***************************
 
 map
