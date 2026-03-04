@@ -11,8 +11,8 @@ origins = [
     "http://localhost:8000",  # Local backend
     "http://127.0.0.1:5500",
     "http://127.0.0.1:8000",
-    "https://yourusername.github.io",  # Will update after GitHub Pages
-    "https://yourdomain.com",  # Your custom domain if you have one
+    "https://thibash4842.github.io",  # Will update after GitHub Pages
+    # "https://yourdomain.com",  # Your custom domain if you have one
 ]
 
 app.add_middleware(
