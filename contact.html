@@ -135,7 +135,7 @@
 
                                             <p class="mil-light-soft mil-up mb-2 d-flex">
                                                 <span><i class="fa-regular fa-envelope"></i></span>
-                                                &nbsp;info@idlemind.agency
+                                                &nbsp;info@idlemind.in
                                             </p>
 
                                             <p class="mil-light-soft mil-up d-flex">
@@ -229,8 +229,10 @@
                                         expedita tempora officia recusandae reprehenderit laborum doloremque ratione
                                         voluptates sint, odit quaerat?</p>
                                 </div>
+                
                                 <aside class="card-contact-contain">
-                                    <figure class="card-contact">
+                                    <!-- email -->
+                                    <a href="mailto:info@idlemind.in?subject=Project Discussion" class="card-contact">
                                         <figcaption class="card-cant-slice">
                                             <i class="fa-solid fa-paperclip"></i>
                                             <div>
@@ -240,10 +242,11 @@
                                         </figcaption>
                                         <div>
                                             <small>/Chat to Sales</small><br />
-                                            <strong>info@idlemind.agency</strong>
+                                            <strong>info@idlemind.in</strong>
                                         </div>
-                                    </figure>
-                                    <figure class="card-contact">
+                                    </a>
+                                    <!-- phone -->
+                                    <a href="tel:+919790884004" class="card-contact">
                                         <figcaption class="card-cant-slice">
                                             <i class="fa-solid fa-phone-volume"></i>
                                             <div>
@@ -255,13 +258,12 @@
                                             <small>/Call Us</small><br />
                                             <strong>+91 97908 84004</strong>
                                         </div>
-                                    </figure>
+                                    </a>
 
                                 </aside>
                             </article>
 
-                            <form action="https://formsubmit.co/el/lavemo" method="POST"
-                                class="form-container">
+                            <form id="contactForm" class="form-container">
 
                                 <!-- Your form fields -->
                                 <div class="">
@@ -286,17 +288,12 @@
                                         id="floatingTextarea" style="height: 150px" required></textarea>
                                 </div>
 
-                                <!-- Spam protection (hidden from users) -->
-                                <input type="hidden" name="_captcha" value="true">
-                                <input type="text" name="_honey" style="display:none">
-                                <input type="hidden" name="_template" value="table">
-                                <input type="hidden" name="_subject" value="New Contact from Website">
-
-                                <button type="submit" class="btn btn-1 hover-filled-slide-down">
+                                <button type="submit" class="btn btn-1 hover-filled-slide-down" id="submitBtn">
                                     <span>Get intouch</span>
                                 </button>
 
                             </form>
+
                         </main>
                     </div>
                 </section>
@@ -365,7 +362,7 @@
                                         <div class="col-md-12 col-lg-12 mil-mb-60">
                                             <p class="mil-light-soft mil-up mb-2">
                                                 <span><i class="fa-regular fa-envelope"></i></span>
-                                                &nbsp;info@idlemind.agency
+                                                &nbsp;info@idlemind.in
                                             </p>
                                             <p class="mil-light-soft mil-up">
                                                 <span><i class="fa-solid fa-mobile-screen"></i></span>
@@ -561,6 +558,9 @@
     <script src="js/main.js"></script>
     <!-- Fontawesom link  -->
     <script src="https://kit.fontawesome.com/be4d572e3d.js" crossorigin="anonymous"></script>
+
+    <!-- Add EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
 </body>
 

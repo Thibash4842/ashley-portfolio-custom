@@ -4778,6 +4778,9 @@ portfolio
   }
 }
 
+.back-to-portfolio {
+  text-align: left;
+}
 /* -------------thibash write to code about portfolio---------end */
 
 /***************************
@@ -5683,6 +5686,15 @@ images
   -webkit-transform: translateY(0);
   transform: translateY(0);
   z-index: 2;
+}
+.mil-image-frame-override {
+  height: 50vmin;
+  width: 100%;
+}
+.mil-image-frame-override > img {
+  height: 100%;
+  width: 100%;
+  object-fit: fill;
 }
 
 /***************************

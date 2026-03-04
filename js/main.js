@@ -577,12 +577,13 @@ $(function () {
         loop: true,
         autoplay: {
             delay: 0,
-            disableOnInteraction: false,
             reverseDirection: true,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: false,
         },
         freeMode: true,
-        freeModeMomentum: false,
         allowTouchMove: false,
+        simulateTouch: false,
         breakpoints: {
             992: {
                 slidesPerView: 3,
@@ -597,17 +598,18 @@ $(function () {
         spaceBetween: 30,
         speed: 8000,
         loop: true,
-        autoplay:true,
+        autoplay: true,
         autoplay: {
             delay: 0,
             disableOnInteraction: false,
+            pauseOnMouseEnter: false,
         },
         freeMode: true,
         allowTouchMove: false,
         simulateTouch: false,
         slidesPerView: 4,
         breakpoints: {
-            
+
             992: {
                 slidesPerView: 3,
             },
@@ -1056,50 +1058,52 @@ $(function () {
             },
         });
 
-    var swiper = new Swiper('.mil-infinite-vertical-down', {
-        direction: "vertical",
-        slidesPerView: 4,
-        spaceBetween: 30,
-        speed: 8000,
-        loop: true,
-        autoplay: {
-            delay: 0,
-            disableOnInteraction: false,
-            reverseDirection: true,
-        },
-        freeMode: true,
-        freeModeMomentum: false,
-        allowTouchMove: false,
-        breakpoints: {
-            992: {
-                slidesPerView: 3,
+        var swiper = new Swiper('.mil-infinite-vertical-down', {
+            direction: "vertical",
+            slidesPerView: 4,
+            spaceBetween: 30,
+            speed: 8000,
+            loop: true,
+            autoplay: {
+                delay: 0,
+                reverseDirection: true,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: false,
             },
-        },
-    });
-
-
-    var swiper = new Swiper('.mil-infinite-vertical-up', {
-        direction: "vertical",
-        // slidesPerView: 2,
-        spaceBetween: 30,
-        speed: 8000,
-        loop: true,
-        autoplay:true,
-        autoplay: {
-            delay: 0,
-            disableOnInteraction: false,
-        },
-        freeMode: true,
-        allowTouchMove: false,
-        simulateTouch: false,
-        slidesPerView: 4,
-        breakpoints: {
-            992: {
-                slidesPerView: 3,
+            freeMode: true,
+            allowTouchMove: false,
+            simulateTouch: false,
+            breakpoints: {
+                992: {
+                    slidesPerView: 3,
+                },
             },
+        });
 
-        },
-    });
+
+        var swiper = new Swiper('.mil-infinite-vertical-up', {
+            direction: "vertical",
+            // slidesPerView: 2,
+            spaceBetween: 30,
+            speed: 8000,
+            loop: true,
+            autoplay: true,
+            autoplay: {
+                delay: 0,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: false,
+            },
+            freeMode: true,
+            allowTouchMove: false,
+            simulateTouch: false,
+            slidesPerView: 4,
+            breakpoints: {
+                992: {
+                    slidesPerView: 3,
+                },
+
+            },
+        });
 
 
         /***************************
@@ -1170,4 +1174,157 @@ $(function () {
 
     });
 
+});
+
+// document.getElementById("contactForm").addEventListener("submit", function(e) {
+//     e.preventDefault();
+
+//     fetch("http://127.0.0.1:8000/api/contact", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({
+//             name: this.name.value,
+//             email: this.email.value,
+//             phone: this.phone.value,
+//             message: this.message.value
+//         })
+//     })
+//     .then(res => res.json())
+//     .then(data => {
+//         alert("Message Sent Successfully!");
+//         this.reset();
+//     })
+//     .catch(() => alert("Error sending message"));
+// });
+
+
+// Wait for DOM to load
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.getElementById('contactForm');
+    const submitBtn = document.getElementById('submitBtn');
+
+    if (contactForm) {
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Disable button to prevent double submission
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span>Sending...</span>';
+            
+            // Get form data - match the field names with your Pydantic model
+            const formData = {
+                name: document.getElementById('examplename').value,
+                email: document.getElementById('exampleInputEmail1').value,
+                phone: document.getElementById('exampleInputNumber').value,
+                message: document.getElementById('floatingTextarea').value
+            };
+            
+            // Optional: Add validation
+            if (!validateForm(formData)) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span>Get intouch</span>';
+                return;
+            }
+            
+            try {
+                // Send to your FastAPI backend
+                const response = await fetch('http://localhost:8000/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    // Show success message
+                    showNotification(result.message || 'Message sent successfully!', 'success');
+                    contactForm.reset(); // Clear form
+                } else {
+                    showNotification('Error: ' + (result.detail || 'Failed to send message'), 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification('Failed to connect to server. Make sure the backend is running.', 'error');
+            } finally {
+                // Re-enable button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span>Get intouch</span>';
+            }
+        });
+    }
+});
+
+// Form validation function
+function validateForm(data) {
+    if (!data.name.trim()) {
+        showNotification('Please enter your name', 'error');
+        return false;
+    }
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(data.email)) {
+        showNotification('Please enter a valid email address', 'error');
+        return false;
+    }
+    
+    const phoneRegex = /^[\d\s\-+()]{10,}$/;
+    if (!phoneRegex.test(data.phone.replace(/\s/g, ''))) {
+        showNotification('Please enter a valid phone number', 'error');
+        return false;
+    }
+    
+    if (!data.message.trim()) {
+        showNotification('Please enter your message', 'error');
+        return false;
+    }
+    
+    return true;
+}
+
+// Simple notification function
+function showNotification(message, type) {
+    // You can replace this with a nice toast notification
+    alert(message);
+}
+
+// Add this at the top of your script
+const API_URL = window.location.hostname === 'localhost' || 
+                window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:8000'  // Local development
+    : 'https://your-backend-url.com'; // Will update this after deployment
+
+// Update your fetch request
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = {
+        name: document.getElementById('examplename').value,
+        email: document.getElementById('exampleInputEmail1').value,
+        phone: document.getElementById('exampleInputNumber').value,
+        message: document.getElementById('floatingTextarea').value
+    };
+    
+    try {
+        const response = await fetch(`${API_URL}/api/contact`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            alert('Message sent successfully!');
+            contactForm.reset();
+        } else {
+            alert('Error: ' + (result.detail || 'Failed to send'));
+        }
+    } catch (error) {
+        alert('Cannot connect to server');
+    }
 });
