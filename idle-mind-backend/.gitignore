@@ -5,16 +5,6 @@ package-lock.json
 # Environment files
 .env
 .env.local
-.env.production
-
-# IDE
-.vscode/
-.idea/
-
-# OS files
-.DS_Store
-Thumbs.db
 
 # Logs
 *.log
-npm-debug.log*

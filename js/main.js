@@ -21,7 +21,7 @@ $(function () {
     const options = {
         containers: ['#swupMain', '#swupMenu'],
         animateHistoryBrowsing: true,
-        linkSelector: 'a:not([data-no-swup])',
+        linkSelector: 'a:not([data-no-swup]):not([href^="tel:"]):not([href^="mailto:"])',
         animationSelector: '[class="mil-main-transition"]'
     };
     const swup = new Swup(options);
@@ -1176,112 +1176,109 @@ $(function () {
 
 });
 
-
-// Wait for DOM to load
+// Contact Form Handling
 document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contactForm');
-    const submitBtn = document.getElementById('submitBtn');
-
-    // Define API URL based on environment
-    const API_URL = window.location.hostname === 'localhost' || 
-                    window.location.hostname === '127.0.0.1'
-        ? 'http://localhost:8000'  // Local development
-        : 'https://idlemind-in.onrender.com'; // Update this after deployment
-
+    
     if (contactForm) {
         contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
-            
+
             // Get form data
             const formData = {
-                name: document.getElementById('examplename').value,
-                email: document.getElementById('exampleInputEmail1').value,
-                phone: document.getElementById('exampleInputNumber').value,
-                message: document.getElementById('floatingTextarea').value
+                name: document.querySelector('input[name="name"]').value.trim(),
+                email: document.querySelector('input[name="email"]').value.trim(),
+                phone: document.querySelector('input[name="phone"]').value.trim(),
+                message: document.querySelector('textarea[name="message"]').value.trim()
             };
-            
-            // Validate form first
-            if (!validateForm(formData)) {
-                return; // Stop if validation fails
+
+            // Validation
+            if (!validateEmail(formData.email)) {
+                showNotification('Please enter a valid email address', 'error');
+                return;
             }
-            
-            // Disable button and show loading
+
+            // Get submit button
+            const submitBtn = document.getElementById('submitBtn');
             const originalText = submitBtn.innerHTML;
+            
+            // Show loading state
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span>Sending...</span>';
-            
+
             try {
-                // Send to backend
-                const response = await fetch(`${API_URL}/api/contact`, {
+                // Use environment-specific backend URL
+                const backendURL = getBackendURL();
+                
+                const response = await fetch(`${backendURL}/api/send-email`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(formData)
                 });
-                
-                const result = await response.json();
-                
-                if (response.ok) {
-                    // Success
-                    showNotification('✅ Message sent successfully! We will get back to you soon.', 'success');
-                    contactForm.reset(); // Clear form
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showNotification(data.message, 'success');
+                    contactForm.reset();
                 } else {
-                    // Server returned error
-                    showNotification('❌ Error: ' + (result.detail || 'Failed to send message'), 'error');
+                    showNotification(data.message, 'error');
                 }
+
             } catch (error) {
-                // Network error
                 console.error('Error:', error);
-                showNotification('❌ Cannot connect to server. Please make sure the backend is running on port 8000', 'error');
+                showNotification('Cannot connect to server. Please try again.', 'error');
             } finally {
-                // Re-enable button
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalText;
             }
         });
     }
 
-    // Form validation function
-    function validateForm(data) {
-        if (!data.name || !data.name.trim()) {
-            showNotification('Please enter your name', 'error');
-            return false;
+    // Get backend URL based on environment
+    function getBackendURL() {
+        // Check if we're on localhost
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            return 'http://localhost:3001'; // Local development
+        } else {
+            // Production - replace with your Render URL
+            return 'https://your-backend-name.onrender.com'; // You'll update this after deploying to Render
         }
-        
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!data.email || !emailRegex.test(data.email)) {
-            showNotification('Please enter a valid email address', 'error');
-            return false;
-        }
-        
-        // Phone validation - accepts digits, spaces, +, -, ()
-        const phoneRegex = /^[\d\s\-+()]{10,}$/;
-        const cleanPhone = data.phone.replace(/\s/g, '');
-        if (!data.phone || !phoneRegex.test(cleanPhone) || cleanPhone.length < 10) {
-            showNotification('Please enter a valid phone number (at least 10 digits)', 'error');
-            return false;
-        }
-        
-        if (!data.message || !data.message.trim()) {
-            showNotification('Please enter your message', 'error');
-            return false;
-        }
-        
-        if (data.message.trim().length < 10) {
-            showNotification('Message must be at least 10 characters long', 'error');
-            return false;
-        }
-        
-        return true;
+    }
+
+    // Email validation
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
     }
 
     // Notification function
     function showNotification(message, type) {
-        // Simple alert (you can replace with custom notification)
-        alert(message);
+        let notification = document.getElementById('formNotification');
         
-        // Also log to console for debugging
-        console.log(`[${type.toUpperCase()}] ${message}`);
+        if (!notification) {
+            notification = document.createElement('div');
+            notification.id = 'formNotification';
+            notification.style.position = 'fixed';
+            notification.style.top = '20px';
+            notification.style.right = '20px';
+            notification.style.padding = '15px 25px';
+            notification.style.borderRadius = '5px';
+            notification.style.zIndex = '9999';
+            notification.style.fontWeight = '500';
+            notification.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
+            document.body.appendChild(notification);
+        }
+
+        notification.style.backgroundColor = type === 'success' ? '#4CAF50' : '#f44336';
+        notification.style.color = 'white';
+        notification.textContent = message;
+        notification.style.display = 'block';
+
+        setTimeout(() => {
+            notification.style.display = 'none';
+        }, 5000);
     }
 });

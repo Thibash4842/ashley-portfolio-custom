@@ -342,7 +342,7 @@
                                 </div>
                                 <aside class="card-contact-contain">
                                     <!-- email -->
-                                    <a href="mailto:info@idlemind.in" class="card-contact" target="_blank">
+                                    <a href="mailto:info@idlemind.in" class="card-contact" data-no-swup>
                                         <figcaption class="card-cant-slice">
                                             <i class="fa-solid fa-paperclip"></i>
                                             <div>
@@ -356,7 +356,7 @@
                                         </div>
                                     </a>
                                     <!-- phone -->
-                                    <a href="tel:9790884004" class="card-contact">
+                                    <a href="tel:+919790884004" class="card-contact" data-no-swup>
                                         <figcaption class="card-cant-slice">
                                             <i class="fa-solid fa-phone-volume"></i>
                                             <div>
@@ -373,29 +373,34 @@
                                 </aside>
                             </article>
 
-                            <form class="form-container">
+                            <form id="contactForm" class="form-container">
+
+                                <!-- Your form fields -->
                                 <div class="">
                                     <label for="examplename">Your Name*</label>
-                                    <input type="text" class="form-control" placeholder="Your name" id="examplename">
+                                    <input type="text" name="name" class="form-control" placeholder="Your name"
+                                        id="examplename" required>
 
                                 </div>
                                 <div class="">
                                     <label for="exampleInputEmail1" class="form-label">Your E-mail*</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail1"
-                                        placeholder="Your Email">
+                                    <input type="email" name="email" class="form-control" id="exampleInputEmail1"
+                                        placeholder="Your Email" required>
                                 </div>
                                 <div class="">
                                     <label for="exampleInputNumber" class="form-label">Phone Number*</label><br />
-                                    <input type="tel" class="form-control" id="exampleInputNumber"
-                                        placeholder="Your Number">
+                                    <input type="tel" name="phone" class="form-control" id="exampleInputNumber"
+                                        placeholder="Your Number" required>
                                 </div>
                                 <div class="">
                                     <label for="floatingTextarea">Tell us your project?</label>
-                                    <textarea class="form-control" placeholder="Your Message" id="floatingTextarea"
-                                        style="height: 150px"></textarea>
+                                    <textarea name="message" class="form-control" placeholder="Your Message"
+                                        id="floatingTextarea" style="height: 150px" required></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-1 hover-filled-slide-down"><span>Get in
-                                        touch</span></button>
+
+                                <button type="submit" class="btn btn-1 hover-filled-slide-down" id="submitBtn">
+                                    <span>Get intouch</span>
+                                </button>
 
                             </form>
                         </main>
@@ -463,11 +468,11 @@
                                 <div class="col-md-6 col-lg-3">
                                     <div class="row justify-content-between">
                                         <div class="col-md-12 col-lg-12 mil-mb-60">
-                                            <a href="mailto:info@idlemind.in" class="mil-light-soft mil-up mb-2 footer-email-call">
+                                            <a href="mailto:info@idlemind.in" class="mil-light-soft mil-up mb-2 footer-email-call" data-no-swup>
                                                 <span><i class="fa-regular fa-envelope"></i></span>
                                                 &nbsp;info@idlemind.in
                                             </a>
-                                            <a href="tel:9790884004" class="mil-light-soft mil-up footer-email-call">
+                                            <a href="tel:+919790884004" class="mil-light-soft mil-up footer-email-call" data-no-swup>
                                                 <span><i class="fa-solid fa-mobile-screen"></i></span>
                                                 &nbsp; +91 9790884004
                                             </a>
