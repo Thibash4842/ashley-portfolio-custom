@@ -1176,42 +1176,23 @@ $(function () {
 
 });
 
-// document.getElementById("contactForm").addEventListener("submit", function(e) {
-//     e.preventDefault();
-
-//     fetch("http://127.0.0.1:8000/api/contact", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({
-//             name: this.name.value,
-//             email: this.email.value,
-//             phone: this.phone.value,
-//             message: this.message.value
-//         })
-//     })
-//     .then(res => res.json())
-//     .then(data => {
-//         alert("Message Sent Successfully!");
-//         this.reset();
-//     })
-//     .catch(() => alert("Error sending message"));
-// });
-
 
 // Wait for DOM to load
 document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contactForm');
     const submitBtn = document.getElementById('submitBtn');
 
+    // Define API URL based on environment
+    const API_URL = window.location.hostname === 'localhost' || 
+                    window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:8000'  // Local development
+        : 'https://your-backend-url.com'; // Update this after deployment
+
     if (contactForm) {
         contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // Disable button to prevent double submission
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span>Sending...</span>';
-            
-            // Get form data - match the field names with your Pydantic model
+            // Get form data
             const formData = {
                 name: document.getElementById('examplename').value,
                 email: document.getElementById('exampleInputEmail1').value,
@@ -1219,16 +1200,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 message: document.getElementById('floatingTextarea').value
             };
             
-            // Optional: Add validation
+            // Validate form first
             if (!validateForm(formData)) {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<span>Get intouch</span>';
-                return;
+                return; // Stop if validation fails
             }
             
+            // Disable button and show loading
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span>Sending...</span>';
+            
             try {
-                // Send to your FastAPI backend
-                const response = await fetch('http://localhost:8000/api/contact', {
+                // Send to backend
+                const response = await fetch(`${API_URL}/api/contact`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1239,92 +1223,65 @@ document.addEventListener('DOMContentLoaded', function() {
                 const result = await response.json();
                 
                 if (response.ok) {
-                    // Show success message
-                    showNotification(result.message || 'Message sent successfully!', 'success');
+                    // Success
+                    showNotification('✅ Message sent successfully! We will get back to you soon.', 'success');
                     contactForm.reset(); // Clear form
                 } else {
-                    showNotification('Error: ' + (result.detail || 'Failed to send message'), 'error');
+                    // Server returned error
+                    showNotification('❌ Error: ' + (result.detail || 'Failed to send message'), 'error');
                 }
             } catch (error) {
+                // Network error
                 console.error('Error:', error);
-                showNotification('Failed to connect to server. Make sure the backend is running.', 'error');
+                showNotification('❌ Cannot connect to server. Please make sure the backend is running on port 8000', 'error');
             } finally {
                 // Re-enable button
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = '<span>Get intouch</span>';
+                submitBtn.innerHTML = originalText;
             }
         });
     }
-});
 
-// Form validation function
-function validateForm(data) {
-    if (!data.name.trim()) {
-        showNotification('Please enter your name', 'error');
-        return false;
-    }
-    
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email)) {
-        showNotification('Please enter a valid email address', 'error');
-        return false;
-    }
-    
-    const phoneRegex = /^[\d\s\-+()]{10,}$/;
-    if (!phoneRegex.test(data.phone.replace(/\s/g, ''))) {
-        showNotification('Please enter a valid phone number', 'error');
-        return false;
-    }
-    
-    if (!data.message.trim()) {
-        showNotification('Please enter your message', 'error');
-        return false;
-    }
-    
-    return true;
-}
-
-// Simple notification function
-function showNotification(message, type) {
-    // You can replace this with a nice toast notification
-    alert(message);
-}
-
-// Add this at the top of your script
-const API_URL = window.location.hostname === 'localhost' || 
-                window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:8000'  // Local development
-    : 'https://your-backend-url.com'; // Will update this after deployment
-
-// Update your fetch request
-document.getElementById('contactForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const formData = {
-        name: document.getElementById('examplename').value,
-        email: document.getElementById('exampleInputEmail1').value,
-        phone: document.getElementById('exampleInputNumber').value,
-        message: document.getElementById('floatingTextarea').value
-    };
-    
-    try {
-        const response = await fetch(`${API_URL}/api/contact`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
-        });
-        
-        const result = await response.json();
-        
-        if (response.ok) {
-            alert('Message sent successfully!');
-            contactForm.reset();
-        } else {
-            alert('Error: ' + (result.detail || 'Failed to send'));
+    // Form validation function
+    function validateForm(data) {
+        if (!data.name || !data.name.trim()) {
+            showNotification('Please enter your name', 'error');
+            return false;
         }
-    } catch (error) {
-        alert('Cannot connect to server');
+        
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!data.email || !emailRegex.test(data.email)) {
+            showNotification('Please enter a valid email address', 'error');
+            return false;
+        }
+        
+        // Phone validation - accepts digits, spaces, +, -, ()
+        const phoneRegex = /^[\d\s\-+()]{10,}$/;
+        const cleanPhone = data.phone.replace(/\s/g, '');
+        if (!data.phone || !phoneRegex.test(cleanPhone) || cleanPhone.length < 10) {
+            showNotification('Please enter a valid phone number (at least 10 digits)', 'error');
+            return false;
+        }
+        
+        if (!data.message || !data.message.trim()) {
+            showNotification('Please enter your message', 'error');
+            return false;
+        }
+        
+        if (data.message.trim().length < 10) {
+            showNotification('Message must be at least 10 characters long', 'error');
+            return false;
+        }
+        
+        return true;
+    }
+
+    // Notification function
+    function showNotification(message, type) {
+        // Simple alert (you can replace with custom notification)
+        alert(message);
+        
+        // Also log to console for debugging
+        console.log(`[${type.toUpperCase()}] ${message}`);
     }
 });
