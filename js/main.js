@@ -1244,7 +1244,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return 'http://localhost:3001'; // Local development
         } else {
             // Production - replace with your Render URL
-            return 'https://your-backend-name.onrender.com'; // You'll update this after deploying to Render
+            return 'https://idlemind-in.onrender.com'; // You'll update this after deploying to Render
         }
     }
 
