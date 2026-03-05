@@ -906,6 +906,7 @@ textarea:focus {
   font-size: 16px;
   font-weight: bold;
   transition: all 0.4s ease-in-out;
+  cursor: pointer;
 }
 
 .form-container>.btn:hover {
