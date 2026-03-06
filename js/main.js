@@ -26,13 +26,9 @@ $(function () {
     };
     const swup = new Swup(options);
 
-    // Add this - force reinitialize after each transition
-    // swup.on('contentReplaced', () => {
-    //     console.log('🔄 Swup transition complete - forcing form reinit');
-    //     if (typeof initContactForm === 'function') {
-    //         setTimeout(initContactForm, 100);
-    //     }
-    // });
+    // Initialize contact form on page load and after transitions
+    initContactForm();
+    swup.on('contentReplaced', initContactForm);
 
 
     /***************************
@@ -50,6 +46,111 @@ $(function () {
     var accent = 'rgba(255, 152, 0, 1)';
     var dark = '#000';
     var light = '#fff';
+
+    /***************************
+
+    contact form functions
+
+    ***************************/
+
+    // Message display function
+    function showMessage($element, type, message) {
+        $element.removeClass('alert alert-success alert-danger').empty();
+        
+        var alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+        var icon = type === 'success' ? '✓' : '⚠️';
+        
+        var messageHtml = '<div class="alert ' + alertClass + '">' +
+                         '<span class="message-icon">' + icon + '</span>' +
+                         '<span class="message-text">' + message + '</span>' +
+                         '<span class="close-btn" onclick="this.parentElement.remove()">&times;</span>' +
+                         '</div>';
+        
+        $element.html(messageHtml);
+        
+        // Auto-hide success after 5 seconds
+        if (type === 'success') {
+            setTimeout(function() {
+                $element.find('.alert').fadeOut(500, function() {
+                    $(this).remove();
+                });
+            }, 5000);
+        }
+    }
+
+    // Initialize contact form
+    function initContactForm() {
+        $('#contactForm').on('submit', function(e) {
+            e.preventDefault();
+            
+            var $form = $(this);
+            var $submitBtn = $form.find('button[type="submit"]');
+            var $message = $('#formMessage');
+            
+            // Check robot checkbox
+            if (!$('.robot-checkbox').is(':checked')) {
+                showMessage($message, 'error', 'Please verify you are not a robot.');
+                return;
+            }
+            
+            // Get current page
+            var currentPage = window.location.pathname.split('/').pop() || 'contact.html';
+            
+            // Prepare form data
+            var formData = $form.serialize();
+            if (formData.indexOf('page=') === -1) {
+                formData += '&page=' + encodeURIComponent(currentPage);
+            }
+            
+            // Disable button
+            $submitBtn.prop('disabled', true);
+            var originalText = $submitBtn.find('span').text();
+            $submitBtn.find('span').text('Sending...');
+            
+            // Clear previous message
+            $message.empty();
+            
+            // Send AJAX
+            $.ajax({
+                url: 'enquiry.php',
+                type: 'POST',
+                data: formData,
+                dataType: 'json',
+                timeout: 30000,
+                success: function(response) {
+                    if (response.status === 'success') {
+                        showMessage($message, 'success', response.message);
+                        $form[0].reset();
+                        $('.robot-checkbox').prop('checked', false);
+                        $submitBtn.prop('disabled', true);
+                        $submitBtn.find('span').text('Get in touch');
+                    } else {
+                        showMessage($message, 'error', response.message);
+                        $submitBtn.prop('disabled', false);
+                    }
+                },
+                error: function(xhr) {
+                    let errorMsg = 'Connection error. Please try again.';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMsg = xhr.responseJSON.message;
+                    } else if (xhr.status === 404) {
+                        errorMsg = 'enquiry.php not found.';
+                    } else if (xhr.status === 405) {
+                        errorMsg = 'Server error. Please contact support.';
+                    } else if (xhr.status === 500) {
+                        errorMsg = 'Server error. Please try again.';
+                    }
+                    showMessage($message, 'error', errorMsg);
+                    $submitBtn.prop('disabled', false);
+                },
+                complete: function() {
+                    if (!$submitBtn.prop('disabled')) {
+                        $submitBtn.find('span').text(originalText);
+                    }
+                }
+            });
+        });
+    }
 
     /***************************
 
@@ -1184,104 +1285,6 @@ $(function () {
 
 });
 
-
-// js/contact-form.js - Complete contact form handler
-
-$(document).ready(function() {
-    $('#contactForm').on('submit', function(e) {
-        e.preventDefault();
-        
-        var $form = $(this);
-        var $submitBtn = $form.find('button[type="submit"]');
-        var $message = $('#formMessage');
-        
-        // Check robot checkbox
-        if (!$('.robot-checkbox').is(':checked')) {
-            showMessage($message, 'error', 'Please verify you are not a robot.');
-            return;
-        }
-        
-        // Get current page
-        var currentPage = window.location.pathname.split('/').pop() || 'contact.html';
-        
-        // Prepare form data
-        var formData = $form.serialize();
-        if (formData.indexOf('page=') === -1) {
-            formData += '&page=' + encodeURIComponent(currentPage);
-        }
-        
-        // Disable button
-        $submitBtn.prop('disabled', true);
-        var originalText = $submitBtn.html();
-        $submitBtn.html('<span>Sending...</span>');
-        
-        // Clear previous message
-        $message.empty();
-        
-        // Send AJAX
-        $.ajax({
-            url: 'enquiry.php',
-            type: 'POST',
-            data: formData,
-            dataType: 'json',
-            timeout: 30000,
-            success: function(response) {
-                if (response.status === 'success') {
-                    showMessage($message, 'success', response.message);
-                    $form[0].reset();
-                    $('.robot-checkbox').prop('checked', false);
-                    $submitBtn.prop('disabled', true);
-                    $submitBtn.find('span').text('Get in touch');
-                } else {
-                    showMessage($message, 'error', response.message);
-                    $submitBtn.prop('disabled', false);
-                }
-            },
-            error: function(xhr) {
-                let errorMsg = 'Connection error. Please try again.';
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    errorMsg = xhr.responseJSON.message;
-                } else if (xhr.status === 404) {
-                    errorMsg = 'enquiry.php not found.';
-                } else if (xhr.status === 405) {
-                    errorMsg = 'Server error. Please contact support.';
-                } else if (xhr.status === 500) {
-                    errorMsg = 'Server error. Please try again.';
-                }
-                showMessage($message, 'error', errorMsg);
-                $submitBtn.prop('disabled', false);
-            },
-            complete: function() {
-                $submitBtn.find('span').text(originalText);
-            }
-        });
-    });
-    
-    // Message display function
-    function showMessage($element, type, message) {
-        $element.removeClass('alert alert-success alert-danger').empty();
-        
-        var alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
-        var icon = type === 'success' ? '✓' : '⚠️';
-        
-        var messageHtml = '<div class="alert ' + alertClass + '">' +
-                         '<span class="message-icon">' + icon + '</span>' +
-                         '<span class="message-text">' + message + '</span>' +
-                         '<span class="close-btn" onclick="this.parentElement.remove()">&times;</span>' +
-                         '</div>';
-        
-        $element.html(messageHtml);
-        
-        // Auto-hide success after 5 seconds
-        if (type === 'success') {
-            setTimeout(function() {
-                $element.find('.alert').fadeOut(500, function() {
-                    $(this).remove();
-                });
-            }, 5000);
-        }
-    }
-});
 
 // Toggle submit button based on robot checkbox
 function toggleSubmit(checkbox) {
