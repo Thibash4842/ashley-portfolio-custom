@@ -1184,268 +1184,120 @@ $(function () {
 
 });
 
-
-// -----------------------------------------------------------
-// Contact form handling with Swup support
-console.log('🔥 main.js loaded');
-
-// let isSubmitting = false;
-
-// Function to initialize contact form
-function initContactForm() {
-    console.log('📝 Checking for contact form on:', window.location.pathname);
-
+// Contact Form Handling
+document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contactForm');
-
-    if (!contactForm) {
-        console.log('ℹ️ No contact form on this page');
-        return;
-    }
-
-    console.log('✅ Contact form initialized on:', window.location.pathname);
-
-    // IMPORTANT: Remove any action that might cause page submission
-    contactForm.removeAttribute('action');
-    // Don't set method='POST' here - let the browser default to GET
-    // but we'll prevent default anyway
-
-    // Remove any existing event listeners by cloning and replacing
-    const newForm = contactForm.cloneNode(true);
-    contactForm.parentNode.replaceChild(newForm, contactForm);
-
-    // Add submit handler to new form
-    newForm.addEventListener('submit', async function (e) {
-        // CRITICAL: Prevent default form submission (page refresh)
-        e.preventDefault();
-        e.stopPropagation();
-
-        // Prevent double submission
-        // if (isSubmitting) {
-        //     console.log('⏳ Already submitting, please wait...');
-        //     return;
-        // }
-
-        console.log('📝 Form submitted - processing with AJAX');
-        // isSubmitting = true;
-
-        // Get form data (search within this form only)
-        const formData = {
-            name: newForm.querySelector('input[name="name"]')?.value.trim() || '',
-            email: newForm.querySelector('input[name="email"]')?.value.trim() || '',
-            phone: newForm.querySelector('input[name="phone"]')?.value.trim() || '',
-            message: newForm.querySelector('textarea[name="message"]')?.value.trim() || ''
-        };
-
-        console.log('Form data:', formData);
-
-        // Validation
-        if (!formData.name || !formData.email || !formData.phone || !formData.message) {
-            showNotification('Please fill in all fields', 'error');
-            return;
-        }
-
-        // Email validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(formData.email)) {
-            showNotification('Please enter a valid email address', 'error');
-            return;
-        }
-
-        // Phone validation (basic)
-        const phoneRegex = /^[\d\s\-+()]{10,}$/;
-        if (!phoneRegex.test(formData.phone)) {
-            showNotification('Please enter a valid phone number', 'error');
-            return;
-        }
-
-        // Get submit button
-        const submitBtn = newForm.querySelector('button[type="submit"]');
-
-        if (!submitBtn) {
-            console.error('Submit button not found');
-            showNotification('Form error. Please refresh the page.', 'error');
-            return;
-        }
-
-        const originalText = submitBtn.innerHTML;
-
-        // Show loading state
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = 'Sending...';
-
-        try {
-            // Use environment-specific backend URL
-            const backendURL = window.location.hostname === 'localhost' ||
-                window.location.hostname === '127.0.0.1'
-                ? 'http://localhost:3001'
-                : 'https://idlemind-in.onrender.com';
-
-            console.log('Sending to:', backendURL);
-
-            // Add timeout to fetch
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 10000);
-
-            const response = await fetch(`${backendURL}/api/send-email`, {
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            
+            // Get submit button
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+            const messageDiv = document.getElementById('formMessage');
+            
+            // Show loading state
+            submitBtn.innerHTML = '<span>Sending...</span>';
+            submitBtn.disabled = true;
+            if (messageDiv) {
+                messageDiv.style.display = 'none';
+                messageDiv.className = 'mt-3';
+            }
+            
+            // Send data to PHP file
+            fetch('./php/contact.php', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-                signal: controller.signal
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (messageDiv) {
+                    messageDiv.style.display = 'block';
+                    
+                    if (data.status === 'success') {
+                        messageDiv.className = 'mt-3 alert alert-success';
+                        messageDiv.innerHTML = data.message;
+                        contactForm.reset(); // Reset form on success
+                        
+                        // Optional: Redirect after success
+                        // setTimeout(() => {
+                        //     window.location.href = 'thank-you.html';
+                        // }, 2000);
+                    } else {
+                        messageDiv.className = 'mt-3 alert alert-danger';
+                        messageDiv.innerHTML = data.message;
+                    }
+                    
+                    // Scroll to message
+                    messageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    // Fallback to alert if message div doesn't exist
+                    if (data.status === 'success') {
+                        alert(data.message);
+                        contactForm.reset();
+                    } else {
+                        alert(data.message);
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                if (messageDiv) {
+                    messageDiv.style.display = 'block';
+                    messageDiv.className = 'mt-3 alert alert-danger';
+                    messageDiv.innerHTML = 'An error occurred. Please try again.';
+                } else {
+                    alert('An error occurred. Please try again.');
+                }
+            })
+            .finally(() => {
+                // Restore button state
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
             });
-
-            clearTimeout(timeoutId);
-
-            // Check if response is ok
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            console.log('Response:', data);
-
-            if (data.success) {
-                showNotification('Message sent successfully!', 'success');
-                newForm.reset(); // Clear the form
-            } else {
-                showNotification(data.message || 'Failed to send message', 'error');
-            }
-
-        } catch (error) {
-            console.error('Error:', error);
-
-            if (error.name === 'AbortError') {
-                showNotification('Request timeout. Please try again.', 'error');
-            } else if (error.message.includes('Failed to fetch')) {
-                showNotification('Cannot connect to server. Please check your internet connection.', 'error');
-            } else {
-                showNotification('An error occurred. Please try again.', 'error');
-            }
-        } finally {
-            // Reset button state
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalText;
-            console.log('Button state reset - ready for next submission');
-        }
-
-        // Extra protection against page refresh
-        return false;
-    });
-
-    console.log('✅ Event listener attached successfully');
-}
-
-// Notification function (unchanged)
-function showNotification(message, type) {
-    // Remove existing notification if any
-    const existingNotification = document.getElementById('formNotification');
-    if (existingNotification) {
-        existingNotification.remove();
+        });
     }
+});
 
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.id = 'formNotification';
-    notification.textContent = message;
-
-    // Style based on type
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        padding: 15px 25px;
-        border-radius: 5px;
-        z-index: 9999;
-        font-weight: 500;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        animation: slideIn 0.3s ease;
-        background-color: ${type === 'success' ? '#4CAF50' : '#f44336'};
-        color: white;
-    `;
-
-    // Add animation keyframes if not already present
-    if (!document.querySelector('#notification-styles')) {
-        const style = document.createElement('style');
-        style.id = 'notification-styles';
-        style.textContent = `
-            @keyframes slideIn {
-                from {
-                    transform: translateX(100%);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateX(0);
-                    opacity: 1;
-                }
-            }
-        `;
-        document.head.appendChild(style);
+// Optional: Add form validation before submit
+function validateContactForm(name, email, phone, message) {
+    let isValid = true;
+    let errors = [];
+    
+    // Name validation
+    if (!name || name.trim() === '') {
+        errors.push('Name is required');
+        isValid = false;
     }
-
-    document.body.appendChild(notification);
-
-    // Auto remove after 5 seconds
-    setTimeout(() => {
-        notification.style.opacity = '0';
-        notification.style.transition = 'opacity 0.5s';
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.remove();
-            }
-        }, 500);
-    }, 5000);
+    
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+        errors.push('Valid email is required');
+        isValid = false;
+    }
+    
+    // Phone validation (optional - customize as needed)
+    const phoneRegex = /^[\d\s\-+()]{10,}$/;
+    if (!phone || !phoneRegex.test(phone.replace(/\s/g, ''))) {
+        errors.push('Valid phone number is required');
+        isValid = false;
+    }
+    
+    // Message validation
+    if (!message || message.trim() === '') {
+        errors.push('Message is required');
+        isValid = false;
+    }
+    
+    return { isValid, errors };
 }
-
-// Initialize on first page load
-document.addEventListener('DOMContentLoaded', function () {
-    console.log('📄 DOM Content Loaded');
-    initContactForm();
-});
-
-// IMPORTANT: Handle Swup page transitions
-if (typeof Swup !== 'undefined') {
-    console.log('🔄 Swup detected - setting up transition handlers');
-
-    // Re-initialize after Swup content replacement
-    document.addEventListener('swup:contentReplaced', function () {
-        console.log('🔄 Swup content replaced - reinitializing form');
-        initContactForm();
-    });
-
-    // Backup handler
-    document.addEventListener('swup:load', function () {
-        console.log('🔄 Swup load event');
-        setTimeout(initContactForm, 50);
-    });
-} else {
-    console.log('ℹ️ Swup not detected');
-}
-
-// Backup: Also run on window load (for non-Swup pages)
-window.addEventListener('load', function () {
-    console.log('📄 Window Loaded');
-    initContactForm();
-});
-
-// For manual testing in console
-window.testForm = function () {
-    console.log('🧪 Manual initialization test');
-    initContactForm();
-};
-
-document.getElementById('submitBtn')?.addEventListener('click', function () {
-    const form = document.getElementById('contactForm');
-    const submitBtn = document.getElementById('submitBtn');
-
-    console.log('=== FORM STATE TEST ===');
-    console.log('Form exists:', !!form);
-    console.log('Submit button disabled:', submitBtn?.disabled);
-    console.log('Form values:', {
-        name: form?.querySelector('input[name="name"]')?.value,
-        email: form?.querySelector('input[name="email"]')?.value,
-        phone: form?.querySelector('input[name="phone"]')?.value,
-        message: form?.querySelector('textarea[name="message"]')?.value
-    });
-    console.log('======================');
-});
