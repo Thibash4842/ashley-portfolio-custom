@@ -1231,6 +1231,7 @@ $(document).ready(function() {
                     $form[0].reset();
                     $('.robot-checkbox').prop('checked', false);
                     $submitBtn.prop('disabled', true);
+                    $submitBtn.find('span').text('Get in touch');
                 } else {
                     showMessage($message, 'error', response.message);
                     $submitBtn.prop('disabled', false);
@@ -1287,5 +1288,8 @@ function toggleSubmit(checkbox) {
     const submitBtn = document.querySelector('button[type="submit"]');
     if (submitBtn) {
         submitBtn.disabled = !checkbox.checked;
+        if (checkbox.checked) {
+            submitBtn.querySelector('span').textContent = 'Get in touch';
+        }
     }
 }
