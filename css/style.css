@@ -760,7 +760,7 @@ form
 }
 
 .contact-container>.contact-con-content {
-  min-height: 650px;
+  min-height: 750px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -906,10 +906,16 @@ textarea:focus {
   font-size: 16px;
   font-weight: bold;
   transition: all 0.4s ease-in-out;
+  cursor: not-allowed;
+  color: #fff;
+}
+
+.form-container > .btn:not([disabled]) {
+  color: #333;
   cursor: pointer;
 }
 
-.form-container>.btn:hover {
+.form-container>.btn:not([disabled]):hover {
   background-color: orange;
 }
 
@@ -921,6 +927,189 @@ textarea:focus {
 @media screen and (max-width : 1200px) {
   .form-container {
     width: 100%;
+  }
+}
+
+
+/* --------------------------------------- */
+/* Robot checkbox styles */
+.robot-check-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background: #f9f9f9;
+    border: 1px solid #d3d3d3;
+    border-radius: 3px;
+    padding: 10px 15px;
+    margin: 15px 0;
+    /* max-width: 300px; */
+}
+
+.robot-check {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    padding-left: 30px;
+    margin-right: 15px;
+}
+
+.robot-checkbox {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #fff;
+    border: 2px solid #c1c1c1;
+    border-radius: 3px;
+}
+
+.robot-check:hover .checkmark {
+    border-color: #999;
+}
+
+.robot-check input:checked ~ .checkmark {
+    background-color: #4a90e2;
+    border-color: #4a90e2;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.robot-check input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.robot-check .checkmark:after {
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.robot-text {
+    font-size: 14px;
+    color: #333;
+}
+
+.captcha-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: auto;
+    font-size: 10px;
+    color: #555;
+}
+
+.captcha-logo img {
+    width: 25px;
+    height: 25px;
+    margin-bottom: 2px;
+}
+
+.captcha-logo p {
+    margin: 0;
+    line-height: 1.2;
+}
+
+.captcha-legal {
+    font-size: 8px;
+    color: #777;
+}
+
+/* Message styles */
+.alert {
+    padding: 15px 20px;
+    border-radius: 4px;
+    margin: 10px 0;
+    font-size: 14px;
+    animation: slideIn 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.message-icon {
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.message-text {
+    flex-grow: 1;
+}
+
+.close-btn {
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 10px;
+    padding: 0 5px;
+}
+
+.close-btn:hover {
+    opacity: 0.7;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Button disabled state */
+button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+@media screen and (max-width:374px) {
+  .form-container {
+    padding: 20px 20px;
+  }
+  .robot-text {
+    font-size: 10px;
+  }
+  .form-container>div>.form-control {
+    padding: 16px 10px;
+  }
+  .robot-check-container {
+    padding: 12px;
+  }
+  .captcha-logo > img{
+    width: 20px;
+    height: 20px;
   }
 }
 
@@ -5815,29 +6004,3 @@ html.is-animating .mil-menu-frame {
 }
 
 /* --------------------------------------- */
-
-/* Form message styles */
-.alert {
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 1px solid transparent;
-    border-radius: 4px;
-}
-
-.alert-success {
-    color: #155724;
-    background-color: #d4edda;
-    border-color: #c3e6cb;
-}
-
-.alert-danger {
-    color: #721c24;
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-}
-
-/* Loading state for button */
-.btn:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-}

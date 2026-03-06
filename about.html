@@ -419,7 +419,11 @@
                             </article>
 
                             <form id="contactForm" class="form-container">
-
+                                <!-- Honeypot field (optional) -->
+                                <div style="display: none;">
+                                    <input type="text" name="website" autocomplete="off">
+                                </div>
+                        
                                 <!-- Your form fields -->
                                 <div class="">
                                     <label for="examplename">Your Name*</label>
@@ -440,13 +444,28 @@
                                 <div class="">
                                     <label for="floatingTextarea">Tell us your project?</label>
                                     <textarea name="message" class="form-control" placeholder="Your Message"
-                                        id="floatingTextarea" style="height: 150px" required></textarea>
+                                        id="floatingTextarea" rows="4" required></textarea>
                                 </div>
 
-                                <button type="submit" class="btn btn-1 hover-filled-slide-down" id="submitBtn">
+                                <div class="robot-check-container modal-robot">
+                                    <label class="robot-check">
+                                        <input type="checkbox" name="robot_check" class="robot-checkbox" required
+                                            onchange="toggleSubmit(this)">
+                                        <span class="checkmark"></span>
+                                        <span class="robot-text">I'm not a robot</span>
+                                    </label>
+                                    <div class="captcha-logo">
+                                        <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA">
+                                        <p>reCAPTCHA</p>
+                                        <p class="captcha-legal">Privacy - Terms</p>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-1 hover-filled-slide-down" id="submitBtn" disabled>
                                     <span>Get intouch</span>
                                 </button>
 
+                                <div id="formMessage" style="margin-top: 20px;"></div>
                             </form>
                         </main>
                     </div>

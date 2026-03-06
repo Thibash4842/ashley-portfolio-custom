@@ -1184,120 +1184,108 @@ $(function () {
 
 });
 
-// Contact Form Handling
-document.addEventListener('DOMContentLoaded', function() {
-    const contactForm = document.getElementById('contactForm');
-    
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form data
-            const formData = new FormData(this);
-            
-            // Get submit button
-            const submitBtn = document.getElementById('submitBtn');
-            const originalText = submitBtn.innerHTML;
-            const messageDiv = document.getElementById('formMessage');
-            
-            // Show loading state
-            submitBtn.innerHTML = '<span>Sending...</span>';
-            submitBtn.disabled = true;
-            if (messageDiv) {
-                messageDiv.style.display = 'none';
-                messageDiv.className = 'mt-3';
+
+// js/contact-form.js - Complete contact form handler
+
+$(document).ready(function() {
+    $('#contactForm').on('submit', function(e) {
+        e.preventDefault();
+        
+        var $form = $(this);
+        var $submitBtn = $form.find('button[type="submit"]');
+        var $message = $('#formMessage');
+        
+        // Check robot checkbox
+        if (!$('.robot-checkbox').is(':checked')) {
+            showMessage($message, 'error', 'Please verify you are not a robot.');
+            return;
+        }
+        
+        // Get current page
+        var currentPage = window.location.pathname.split('/').pop() || 'contact.html';
+        
+        // Prepare form data
+        var formData = $form.serialize();
+        if (formData.indexOf('page=') === -1) {
+            formData += '&page=' + encodeURIComponent(currentPage);
+        }
+        
+        // Disable button
+        $submitBtn.prop('disabled', true);
+        var originalText = $submitBtn.html();
+        $submitBtn.html('<span>Sending...</span>');
+        
+        // Clear previous message
+        $message.empty();
+        
+        // Send AJAX
+        $.ajax({
+            url: 'enquiry.php',
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            timeout: 30000,
+            success: function(response) {
+                if (response.status === 'success') {
+                    showMessage($message, 'success', response.message);
+                    $form[0].reset();
+                    $('.robot-checkbox').prop('checked', false);
+                    $submitBtn.prop('disabled', true);
+                } else {
+                    showMessage($message, 'error', response.message);
+                    $submitBtn.prop('disabled', false);
+                }
+            },
+            error: function(xhr) {
+                let errorMsg = 'Connection error. Please try again.';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMsg = xhr.responseJSON.message;
+                } else if (xhr.status === 404) {
+                    errorMsg = 'enquiry.php not found.';
+                } else if (xhr.status === 405) {
+                    errorMsg = 'Server error. Please contact support.';
+                } else if (xhr.status === 500) {
+                    errorMsg = 'Server error. Please try again.';
+                }
+                showMessage($message, 'error', errorMsg);
+                $submitBtn.prop('disabled', false);
+            },
+            complete: function() {
+                $submitBtn.find('span').text(originalText);
             }
-            
-            // Send data to PHP file
-            fetch('./php/contact.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (messageDiv) {
-                    messageDiv.style.display = 'block';
-                    
-                    if (data.status === 'success') {
-                        messageDiv.className = 'mt-3 alert alert-success';
-                        messageDiv.innerHTML = data.message;
-                        contactForm.reset(); // Reset form on success
-                        
-                        // Optional: Redirect after success
-                        // setTimeout(() => {
-                        //     window.location.href = 'thank-you.html';
-                        // }, 2000);
-                    } else {
-                        messageDiv.className = 'mt-3 alert alert-danger';
-                        messageDiv.innerHTML = data.message;
-                    }
-                    
-                    // Scroll to message
-                    messageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                } else {
-                    // Fallback to alert if message div doesn't exist
-                    if (data.status === 'success') {
-                        alert(data.message);
-                        contactForm.reset();
-                    } else {
-                        alert(data.message);
-                    }
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                if (messageDiv) {
-                    messageDiv.style.display = 'block';
-                    messageDiv.className = 'mt-3 alert alert-danger';
-                    messageDiv.innerHTML = 'An error occurred. Please try again.';
-                } else {
-                    alert('An error occurred. Please try again.');
-                }
-            })
-            .finally(() => {
-                // Restore button state
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-            });
         });
+    });
+    
+    // Message display function
+    function showMessage($element, type, message) {
+        $element.removeClass('alert alert-success alert-danger').empty();
+        
+        var alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+        var icon = type === 'success' ? '✓' : '⚠️';
+        
+        var messageHtml = '<div class="alert ' + alertClass + '">' +
+                         '<span class="message-icon">' + icon + '</span>' +
+                         '<span class="message-text">' + message + '</span>' +
+                         '<span class="close-btn" onclick="this.parentElement.remove()">&times;</span>' +
+                         '</div>';
+        
+        $element.html(messageHtml);
+        
+        // Auto-hide success after 5 seconds
+        if (type === 'success') {
+            setTimeout(function() {
+                $element.find('.alert').fadeOut(500, function() {
+                    $(this).remove();
+                });
+            }, 5000);
+        }
     }
 });
 
-// Optional: Add form validation before submit
-function validateContactForm(name, email, phone, message) {
-    let isValid = true;
-    let errors = [];
-    
-    // Name validation
-    if (!name || name.trim() === '') {
-        errors.push('Name is required');
-        isValid = false;
+// Toggle submit button based on robot checkbox
+function toggleSubmit(checkbox) {
+    const submitBtn = document.querySelector('button[type="submit"]');
+    if (submitBtn) {
+        submitBtn.disabled = !checkbox.checked;
     }
-    
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email || !emailRegex.test(email)) {
-        errors.push('Valid email is required');
-        isValid = false;
-    }
-    
-    // Phone validation (optional - customize as needed)
-    const phoneRegex = /^[\d\s\-+()]{10,}$/;
-    if (!phone || !phoneRegex.test(phone.replace(/\s/g, ''))) {
-        errors.push('Valid phone number is required');
-        isValid = false;
-    }
-    
-    // Message validation
-    if (!message || message.trim() === '') {
-        errors.push('Message is required');
-        isValid = false;
-    }
-    
-    return { isValid, errors };
 }
