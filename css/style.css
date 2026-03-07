@@ -528,6 +528,7 @@ a {
   overflow: hidden;
   width: 100%;
   padding-bottom: 140%;
+  border-radius: 10px;
 }
 
 .mil-img-frame img {
@@ -540,13 +541,9 @@ a {
   object-fit: cover;
   -o-object-position: center;
   object-position: center;
+  border-radius: 10px;
 }
-.mil-about-img-frame > img {
-  top: 20%;
-  left: 0;
-  object-fit: contain;
-  object-position: center;
-}
+
 
 /* -------------------------------------------
 
@@ -3867,7 +3864,6 @@ revievs
 .mil-soft-heading {
   font-size: 4cqmax;
   text-align: center;
-  padding-top: 40px;
 }
 
 .about-card-container {
@@ -5516,6 +5512,7 @@ images
 .mil-image-frame {
   position: relative;
   overflow: hidden;
+  border-radius: 10px;
 }
 
 .mil-image-frame>img {
@@ -5528,6 +5525,7 @@ images
   object-fit: cover;
   -o-object-position: center;
   object-position: center;
+  border-radius: 10px;
 }
 
 .mil-image-frame.mil-horizontal {
