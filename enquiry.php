@@ -68,6 +68,9 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 // Prepare email content
 $subject = "New Enquiry from $name - Idlemind";
 
+// ===== LOCAL TIMEZONE SETTING =====
+date_default_timezone_set('Asia/Kolkata'); // Sets to Indian local time
+
 // HTML Email Body
 $body = "
 <!DOCTYPE html>
@@ -140,7 +143,7 @@ $body = "
             <!-- Metadata Footer -->
             <div style='border-top: 1px solid #e9edf2; padding-top: 20px; margin-top: 8px;'>
                 <p style='margin: 0 0 6px 0; color: #64748b; font-size: 13px; display: flex; align-items: center; gap: 6px;'>
-                    <span style='background-color: #e9edf2; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; color: #475569;'>📅 " . date('F j, Y') . "</span>
+                    <span style='background-color: #e9edf2; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; color: #475569;'>📅 " . date('D, j M Y') . "</span>
                     <span style='background-color: #e9edf2; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; color: #475569;'>⏱️ " . date('g:i A') . "</span>
                 </p>
                 <p style='margin: 12px 0 0 0; color: #94a3b8; font-size: 12px; border-left: 3px solid #cbd5e1; padding-left: 12px;'>

@@ -87,12 +87,6 @@ $(function () {
             var $submitBtn = $form.find('button[type="submit"]');
             var $message = $('#formMessage');
             
-            // Check robot checkbox
-            if (!$('.robot-checkbox').is(':checked')) {
-                showMessage($message, 'error', 'Please verify you are not a robot.');
-                return;
-            }
-            
             // Get current page
             var currentPage = window.location.pathname.split('/').pop() || 'contact.html';
             
@@ -121,7 +115,6 @@ $(function () {
                     if (response.status === 'success') {
                         showMessage($message, 'success', response.message);
                         $form[0].reset();
-                        $('.robot-checkbox').prop('checked', false);
                         $submitBtn.prop('disabled', true);
                         $submitBtn.find('span').text('Get in touch');
                     } else {

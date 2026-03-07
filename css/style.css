@@ -541,6 +541,12 @@ a {
   -o-object-position: center;
   object-position: center;
 }
+.mil-about-img-frame > img {
+  top: 20%;
+  left: 0;
+  object-fit: contain;
+  object-position: center;
+}
 
 /* -------------------------------------------
 
@@ -760,11 +766,11 @@ form
 }
 
 .contact-container>.contact-con-content {
-  min-height: 750px;
+  min-height: 600px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 30px;
+  gap: 20px;
 }
 
 .card-contact-contain {
@@ -874,7 +880,7 @@ form
 }
 
 .form-container>div>label {
-  color: #5b5b5b;
+  color: #fff;
 }
 
 .form-container>div>.form-control {
@@ -906,16 +912,11 @@ textarea:focus {
   font-size: 16px;
   font-weight: bold;
   transition: all 0.4s ease-in-out;
-  cursor: not-allowed;
-  color: #fff;
-}
-
-.form-container > .btn:not([disabled]) {
-  color: #333;
   cursor: pointer;
 }
 
-.form-container>.btn:not([disabled]):hover {
+
+.form-container>.btn:hover {
   background-color: orange;
 }
 
@@ -930,187 +931,199 @@ textarea:focus {
   }
 }
 
-
-/* --------------------------------------- */
-/* Robot checkbox styles */
-.robot-check-container {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    background: #f9f9f9;
-    border: 1px solid #d3d3d3;
-    border-radius: 3px;
-    padding: 10px 15px;
-    margin: 15px 0;
-    /* max-width: 300px; */
-}
-
-.robot-check {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    position: relative;
-    padding-left: 30px;
-    margin-right: 15px;
-}
-
-.robot-checkbox {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-}
-
-.checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 20px;
-    width: 20px;
-    background-color: #fff;
-    border: 2px solid #c1c1c1;
-    border-radius: 3px;
-}
-
-.robot-check:hover .checkmark {
-    border-color: #999;
-}
-
-.robot-check input:checked ~ .checkmark {
-    background-color: #4a90e2;
-    border-color: #4a90e2;
-}
-
-.checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-}
-
-.robot-check input:checked ~ .checkmark:after {
-    display: block;
-}
-
-.robot-check .checkmark:after {
-    left: 6px;
-    top: 2px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-}
-
-.robot-text {
-    font-size: 14px;
-    color: #333;
-}
-
-.captcha-logo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-left: auto;
-    font-size: 10px;
-    color: #555;
-}
-
-.captcha-logo img {
-    width: 25px;
-    height: 25px;
-    margin-bottom: 2px;
-}
-
-.captcha-logo p {
-    margin: 0;
-    line-height: 1.2;
-}
-
-.captcha-legal {
-    font-size: 8px;
-    color: #777;
-}
-
 /* Message styles */
 .alert {
-    padding: 15px 20px;
-    border-radius: 4px;
-    margin: 10px 0;
-    font-size: 14px;
-    animation: slideIn 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  padding: 15px 20px;
+  border-radius: 4px;
+  margin: 10px 0;
+  font-size: 14px;
+  animation: slideIn 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.alert-success {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
+.alert-success {  
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
 }
 
 .alert-danger {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
 }
 
 .message-icon {
-    margin-right: 10px;
-    font-size: 16px;
+  margin-right: 10px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .message-text {
-    flex-grow: 1;
+  flex-grow: 1;
+  word-break: break-word;
+  padding-right: 10px;
 }
 
 .close-btn {
-    cursor: pointer;
-    font-size: 20px;
-    font-weight: bold;
-    margin-left: 10px;
-    padding: 0 5px;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 10px;
+  padding: 0 5px;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
 }
 
 .close-btn:hover {
-    opacity: 0.7;
+  opacity: 0.7;
 }
 
 @keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* Button disabled state */
-button:disabled {
-    opacity: 0.65;
-    cursor: not-allowed;
+/* Desktop styles - TOP 0 RIGHT 0 */
+#formMessage {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  min-width: 400px !important;
+  max-width: 450px !important;
+  z-index: 9999 !important;
+  pointer-events: none;
 }
+
+#formMessage .alert {
+  pointer-events: auto;
+  width: 100%;
+}
+
+/* Tablet styles - TOP 0 RIGHT 0 */
+@media (max-width: 992px) {
+  #formMessage {
+    top: 0 !important;
+    right: 0 !important;
+    min-width: 350px !important;
+    max-width: 400px !important;
+  }
+}
+
+/* Mobile styles - TOP 0 RIGHT 0 (FULL WIDTH) */
+@media (max-width: 768px) {
+  #formMessage {
+    top: 0 !important;
+    right: 0 !important;
+    left: 0 !important;  /* Stretch to left edge on mobile */
+    min-width: auto !important;
+    max-width: none !important;
+    width: 100% !important;
+  }
+
+  .alert {
+    padding: 12px 16px !important;
+    font-size: 13px !important;
+    border-radius: 0 !important;  /* Remove border radius on mobile for full width */
+  }
+
+  .message-icon {
+    font-size: 15px !important;
+    margin-right: 8px !important;
+  }
+
+  .close-btn {
+    font-size: 20px !important;
+    margin-left: 8px !important;
+    padding: 0 3px !important;
+  }
+}
+
+/* Small mobile styles - TOP 0 RIGHT 0 */
+@media (max-width: 480px) {
+  #formMessage {
+    top: 0 !important;
+    right: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+  }
+
+  .alert {
+    padding: 10px 14px !important;
+    font-size: 12px !important;
+  }
+
+  .message-icon {
+    font-size: 14px !important;
+    margin-right: 6px !important;
+  }
+
+  .close-btn {
+    font-size: 18px !important;
+    margin-left: 6px !important;
+  }
+}
+
+/* Very small mobile styles */
+@media (max-width: 320px) {
+  .alert {
+    padding: 8px 12px !important;
+    flex-wrap: wrap !important;
+  }
+
+  .message-text {
+    width: 100%;
+    margin-bottom: 5px;
+    text-align: center;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+}
+
+/* Animation for mobile */
+@media (max-width: 768px) {
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Touch-friendly close button for mobile */
+@media (hover: none) and (max-width: 768px) {
+  .close-btn {
+    padding: 8px 10px !important; /* Larger touch target */
+  }
+}
+
 
 @media screen and (max-width:374px) {
   .form-container {
     padding: 20px 20px;
   }
-  .robot-text {
-    font-size: 10px;
-  }
+
   .form-container>div>.form-control {
     padding: 16px 10px;
   }
-  .robot-check-container {
-    padding: 12px;
-  }
-  .captcha-logo > img{
-    width: 20px;
-    height: 20px;
-  }
+
 }
 
 
@@ -2189,72 +2202,14 @@ menu
 
 /* -----------------service-cover-banner start----------------------- */
 /* ---------------- thibash writeto code ------------------- */
-.service-cover-banner {
-  width: 100%;
-  min-height: 90vh;
-  display: grid;
-  grid-template-columns: 50% 50%;
-}
-
 
 .service-cover-banner-content {
-  margin-top: 3rem;
+  width: 100%;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  gap: 20px;
-}
-
-/*------------- service cover swiper start------------------ */
-
-
-.service-cover-swiper {
-  display: block;
-  height: 100vh;
-  overflow: hidden;
-  display: flex;
-  gap: 20px;
-}
-
-.mil-infinite-vertical-down,
-.mil-infinite-vertical-up {
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.mil-infinite-vertical-down .swiper-slide,
-.mil-infinite-vertical-up .swiper-slide {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.mil-service-frame {
-  border-radius: 10px;
-  padding: 10px;
-}
-
-.mil-service-frame>img {
-  border-radius: 10px;
-  width: 100vw;
-  height: 230px;
-  object-fit: contain;
-}
-
-/*------------- service cover swiper end------------------ */
-.btn-service-page {
-  height: 50px;
-  padding: 0 10px 0px 20px;
-  text-transform: none;
-  letter-spacing: 0;
-  font-size: 14px;
-  box-shadow: -6px 6px 14px rgba(95, 95, 95, 0.5),
-    6px 6px 14px rgba(90, 90, 90, 0.5);
-}
-
-.btn-sp {
-  background-color: #c0bebe;
+  gap: 40px;
 }
 
 .cover-article-con-1>article {
@@ -2316,236 +2271,6 @@ menu
   text-transform: uppercase;
 }
 
-/* ------------- swiper responsive in service page start------------ */
-
-@media screen and (max-width : 375px) {
-
-  .cover-article-con-2>.cov-art-icon {
-    left: 0px;
-    top: 4.5rem;
-  }
-
-  .cover-article-con-2>.cov-art-des {
-    top: 6rem;
-    left: 0px;
-  }
-
-  .service-cover-swiper {
-    height: 50vh;
-  }
-
-  .mil-infinite-vertical-down,
-  .mil-infinite-vertical-up {
-    height: 50vh;
-  }
-
-  .mil-service-frame {
-    width: 100vw;
-    height: 100vh;
-  }
-
-  .mil-service-frame>img {
-    width: 100%;
-    height: 100%;
-  }
-
-  .responsive-1200 {
-    margin-top: 5rem;
-    margin-bottom: 4rem;
-
-  }
-
-}
-
-@media screen and (min-width : 350px) and (max-width : 440px) {
-
-  .mil-infinite-vertical-down,
-  .mil-infinite-vertical-up {
-    height: 60vh;
-  }
-
-  .service-cover-swiper {
-    height: 60vh;
-  }
-
-  .responsive-1200 {
-    margin-top: 5rem;
-    margin-bottom: 4rem;
-
-  }
-
-}
-
-@media screen and (min-width : 430px) and (max-width : 549px) {
-
-  .mil-infinite-vertical-down,
-  .mil-infinite-vertical-up {
-    height: 80vh;
-  }
-
-  .service-cover-swiper {
-    height: 90vh;
-  }
-
-  .mil-service-frame {
-    width: 100vw;
-    height: 48vh;
-  }
-
-  .responsive-1200 {
-    margin-top: 5rem;
-    margin-bottom: 4rem;
-
-  }
-
-}
-
-
-@media screen and (min-width : 548px) and (max-width : 853px) {
-
-  .mil-infinite-vertical-down,
-  .mil-infinite-vertical-up {
-    width: 100vw;
-    height: 150vh;
-  }
-
-  .service-cover-swiper {
-    height: 100vh;
-  }
-
-  .mil-service-frame {
-    width: 100vw;
-    height: 34vh;
-  }
-
-  .mil-service-frame>img {
-    object-fit: cover;
-  }
-
-  .responsive-1200 {
-    margin-top: 5rem;
-    margin-bottom: 4rem;
-
-  }
-
-}
-
-@media screen and (min-width : 853px) and (max-width : 988px) {
-
-  .mil-infinite-vertical-down,
-  .mil-infinite-vertical-up {
-    width: 100vw;
-    height: 160vh;
-  }
-
-  .service-cover-swiper {
-    height: 100vh;
-  }
-
-  .mil-service-frame {
-    width: 100vw;
-    height: 40vh;
-  }
-
-  .mil-service-frame>img {
-    object-fit: cover;
-  }
-
-  .responsive-1200 {
-    margin-top: 5rem;
-    margin-bottom: 4rem;
-
-  }
-
-}
-
-@media screen and (min-width : 988px) and (max-width : 1200px) {
-
-  .mil-infinite-vertical-down,
-  .mil-infinite-vertical-up {
-    width: 100vw;
-    height: 160vh;
-  }
-
-  .service-cover-swiper {
-    height: 100vh;
-  }
-
-  .mil-service-frame {
-    width: 100vw;
-    height: 54vh;
-  }
-
-  .mil-service-frame>img {
-    object-fit: cover;
-  }
-
-  .responsive-1200 {
-    margin-top: 5rem;
-    margin-bottom: 4rem;
-
-  }
-
-}
-
-@media screen and (min-width : 1200px) and (max-width : 1400px) {
-
-  .mil-infinite-vertical-down,
-  .mil-infinite-vertical-up {
-    width: 100vw;
-    height: 120vh;
-  }
-
-  .service-cover-banner {
-    min-height: 100vh;
-  }
-
-  .service-cover-banner-content {
-    margin-top: 0rem;
-    justify-content: space-evenly;
-    gap: 20px;
-  }
-
-  .service-cover-swiper {
-    height: 98vh;
-    overflow: hidden;
-  }
-
-  .responsive-1200 {
-    margin-top: 4rem;
-    margin-bottom: 4rem;
-
-  }
-}
-
-
-@media screen and (max-width : 1200px) {
-  .service-cover-swiper {
-    overflow-y: hidden;
-    gap: 20px;
-  }
-
-  .mil-service-frame {
-    object-fit: contain;
-  }
-
-  .mil-service-frame>img {
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-  }
-
-}
-
-.mil-infinite-vertical-down .swiper-wrapper,
-.mil-infinite-vertical-up .swiper-wrapper {
-  transition-timing-function: linear !important;
-}
-
-/* ------------- swiper responsive in service page end------------ */
-
-
-
 .mil-servive-heading {
   display: flex;
   justify-content: space-between;
@@ -2559,9 +2284,6 @@ menu
     gap: 10rem;
   }
 
-  .service-cover-swiper {
-    padding: 0%;
-  }
 
 }
 
@@ -4031,31 +3753,31 @@ revievs
 }
 
 .mil-revi-pagination .swiper-pagination-bullet .mil-custom-dot.mil-slide-1 {
-  background-image: url(../img/faces/customers/1.jpg);
+  background-image: url(../img/faces/reviewer\ 01.jpg);
 }
 
 .mil-revi-pagination .swiper-pagination-bullet .mil-custom-dot.mil-slide-2 {
-  background-image: url(../img/faces/customers/2.jpg);
+  background-image: url(../img/faces/reviewer\ 02.jpg);
 }
 
 .mil-revi-pagination .swiper-pagination-bullet .mil-custom-dot.mil-slide-3 {
-  background-image: url(../img/faces/customers/3.jpg);
+  background-image: url(../img/faces/reviewer\ 03.jpg);
 }
 
 .mil-revi-pagination .swiper-pagination-bullet .mil-custom-dot.mil-slide-4 {
-  background-image: url(../img/faces/customers/4.jpg);
+  background-image: url(../img/faces/reviewer\ 04.jpg);
 }
 
 .mil-revi-pagination .swiper-pagination-bullet .mil-custom-dot.mil-slide-5 {
-  background-image: url(../img/faces/customers/5.jpg);
+  background-image: url(../img/faces/reviewer\ 05.jpg);
 }
 
 .mil-revi-pagination .swiper-pagination-bullet .mil-custom-dot.mil-slide-6 {
-  background-image: url(../img/faces/customers/6.jpg);
+  background-image: url(../img/faces/reviewer\ 06.jpg);
 }
 
 .mil-revi-pagination .swiper-pagination-bullet .mil-custom-dot.mil-slide-7 {
-  background-image: url(../img/faces/customers/7.jpg);
+  background-image: url(../img/faces/reviewer\ 07.jpg);
 }
 
 .mil-revi-pagination .swiper-pagination-bullet.swiper-pagination-bullet-active {
@@ -4893,17 +4615,6 @@ portfolio
   left: 10p;
 }
 
-.mil-portfolio-card>h6 {
-  position: absolute;
-  top: -40px;
-  right: 14px;
-  background-color: #fff;
-  border: 1px solid #bebebe;
-  padding: 3px 10px;
-  border-radius: 6px;
-  transition: all 0.20s linear;
-}
-
 .mil-port-descr-cover {
   background-color: rgba(255, 255, 255, 0.8);
   box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.3);
@@ -4944,10 +4655,6 @@ portfolio
 }
 
 
-.mil-portfolio-card:hover>h6 {
-  top: 14px;
-}
-
 @media screen and (max-width : 768px) {
   .mil-portfolio-card {
     height: 330px;
@@ -4971,6 +4678,7 @@ portfolio
 .back-to-portfolio {
   text-align: left;
 }
+
 /* -------------thibash write to code about portfolio---------end */
 
 /***************************
@@ -5877,11 +5585,13 @@ images
   transform: translateY(0);
   z-index: 2;
 }
+
 .mil-image-frame-override {
   height: 50vmin;
   width: 100%;
 }
-.mil-image-frame-override > img {
+
+.mil-image-frame-override>img {
   height: 100%;
   width: 100%;
   object-fit: fill;
