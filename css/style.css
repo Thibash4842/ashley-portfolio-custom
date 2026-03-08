@@ -2202,11 +2202,11 @@ menu
 
 .service-cover-banner-content {
   width: 100%;
-  height: 90vh;
+  min-height: 60vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
-  gap: 40px;
+  justify-content: space-between;
+  gap: 0px;
 }
 
 .cover-article-con-1>article {
@@ -2275,13 +2275,27 @@ menu
 }
 
 @media screen and (max-width : 1200px) {
+  .service-cover-banner-content {
+    padding-top: 30px;
+  }
   .service-cover-banner {
     display: flex;
     flex-direction: column;
     gap: 10rem;
   }
 
-
+}
+@media screen and (max-width : 456px) {
+  .cover-article-con-2>.cov-art-icon {
+    left: 10px;
+    top: 60px;
+  } 
+  .cover-article-con-2>.cov-art-des {
+    position: absolute;
+    top: 80px;
+    left: 10px;
+    color: black;
+  }
 }
 
 /* -----------------service-cover-banner end----------------------- */
@@ -4595,14 +4609,15 @@ portfolio
   position: relative;
   border-radius: 20px;
   overflow: hidden;
-  height: 400px;
+  height: 450px;
 }
 
 .mil-port-cover-frame>img {
   width: 100%;
-  height: 400px;
+  height: 450px;
   transition: all 0.20s linear;
   object-position: center;
+  object-fit: cover;
 }
 
 .mil-port-descr-cover {
@@ -4620,6 +4635,7 @@ portfolio
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   padding: 10px;
   border-radius: 10px;
   color: black;
@@ -4661,15 +4677,43 @@ portfolio
   }
 }
 
-@media screen and (max-width : 370px) {
+@media screen and (max-width : 425px) {
   .mil-port-descr-cover {
     display: flex;
     justify-content: space-between;
     align-items: start;
     flex-direction: column;
     gap: 10px;
+    width: 90%;
+
   }
 }
+@media screen and (min-width : 400px) and (max-width : 576px) {
+  .mil-port-descr-cover {
+    width: 93%;
+  }
+}
+@media screen and (min-width : 533px) and (max-width : 686px) {
+  .mil-port-descr-cover {
+    width: 95%;
+  }
+}
+@media screen and (min-width : 663px) and (max-width : 786px) {
+  .mil-port-descr-cover {
+    width: 96%;
+  }
+}
+@media screen and (min-width : 783px) and (max-width : 886px) {
+  .mil-port-descr-cover {
+    width: 96.5%;
+  }
+}
+@media screen and (min-width : 883px) and (max-width : 986px) {
+  .mil-port-descr-cover {
+    width: 97%;
+  }
+}
+
 
 .back-to-portfolio {
   text-align: left;
