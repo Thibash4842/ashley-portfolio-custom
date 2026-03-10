@@ -2431,6 +2431,7 @@ menu
   padding: 10px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 30px;
 }
 
@@ -2452,6 +2453,7 @@ menu
   font-weight: 500;
   color: #5b5b5b;
   font-size: 12px;
+  margin-bottom: 30px;
 }
 
 .card-reviews-card>.reviews-card-top>p {
