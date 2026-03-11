@@ -56,22 +56,22 @@ $(function () {
     // Message display function
     function showMessage($element, type, message) {
         $element.removeClass('alert alert-success alert-danger').empty();
-        
+
         var alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
         var icon = type === 'success' ? '✓' : '⚠️';
-        
+
         var messageHtml = '<div class="alert ' + alertClass + '">' +
-                         '<span class="message-icon">' + icon + '</span>' +
-                         '<span class="message-text">' + message + '</span>' +
-                         '<span class="close-btn" onclick="this.parentElement.remove()">&times;</span>' +
-                         '</div>';
-        
+            '<span class="message-icon">' + icon + '</span>' +
+            '<span class="message-text">' + message + '</span>' +
+            '<span class="close-btn" onclick="this.parentElement.remove()">&times;</span>' +
+            '</div>';
+
         $element.html(messageHtml);
-        
+
         // Auto-hide success after 5 seconds
         if (type === 'success') {
-            setTimeout(function() {
-                $element.find('.alert').fadeOut(500, function() {
+            setTimeout(function () {
+                $element.find('.alert').fadeOut(500, function () {
                     $(this).remove();
                 });
             }, 5000);
@@ -80,30 +80,30 @@ $(function () {
 
     // Initialize contact form
     function initContactForm() {
-        $('#contactForm').on('submit', function(e) {
+        $('#contactForm').on('submit', function (e) {
             e.preventDefault();
-            
+
             var $form = $(this);
             var $submitBtn = $form.find('button[type="submit"]');
             var $message = $('#formMessage');
-            
+
             // Get current page
             var currentPage = window.location.pathname.split('/').pop() || 'contact.html';
-            
+
             // Prepare form data
             var formData = $form.serialize();
             if (formData.indexOf('page=') === -1) {
                 formData += '&page=' + encodeURIComponent(currentPage);
             }
-            
+
             // Disable button
             $submitBtn.prop('disabled', true);
             var originalText = $submitBtn.find('span').text();
             $submitBtn.find('span').text('Sending...');
-            
+
             // Clear previous message
             $message.empty();
-            
+
             // Send AJAX
             $.ajax({
                 url: 'enquiry.php',
@@ -111,7 +111,7 @@ $(function () {
                 data: formData,
                 dataType: 'json',
                 timeout: 30000,
-                success: function(response) {
+                success: function (response) {
                     if (response.status === 'success') {
                         showMessage($message, 'success', response.message);
                         $form[0].reset();
@@ -122,7 +122,7 @@ $(function () {
                         $submitBtn.prop('disabled', false);
                     }
                 },
-                error: function(xhr) {
+                error: function (xhr) {
                     let errorMsg = 'Connection error. Please try again.';
                     if (xhr.responseJSON && xhr.responseJSON.message) {
                         errorMsg = xhr.responseJSON.message;
@@ -136,7 +136,7 @@ $(function () {
                     showMessage($message, 'error', errorMsg);
                     $submitBtn.prop('disabled', false);
                 },
-                complete: function() {
+                complete: function () {
                     if (!$submitBtn.prop('disabled')) {
                         $submitBtn.find('span').text(originalText);
                     }
@@ -1278,6 +1278,9 @@ $(function () {
 
 });
 
+/**************************
+filter card
+**************************/
 
 // Toggle submit button based on robot checkbox
 function toggleSubmit(checkbox) {
@@ -1289,3 +1292,42 @@ function toggleSubmit(checkbox) {
         }
     }
 }
+
+// Wait for DOM to load
+document.addEventListener('DOMContentLoaded', function () {
+    // Get all filter buttons and portfolio items
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+    // Add click event to each filter button
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Add active class to clicked button
+            button.classList.add('active');
+
+            // Get filter value
+            const filterValue = button.getAttribute('data-filter');
+
+            // Filter items
+            portfolioItems.forEach(item => {
+                if (filterValue === 'all') {
+                    // Show all items
+                    item.classList.remove('hide');
+                } else {
+                    // Get item category
+                    const itemCategory = item.getAttribute('data-category');
+
+                    // Show/hide based on category match
+                    if (itemCategory === filterValue) {
+                        item.classList.remove('hide');
+                    } else {
+                        item.classList.add('hide');
+                    }
+                }
+            });
+        });
+    });
+});

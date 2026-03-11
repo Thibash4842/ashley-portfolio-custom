@@ -2383,10 +2383,13 @@ menu
   border-radius: 30px;
   transition: all 0.4s linear;
   cursor: pointer;
+  text-align: center;
+  background-color: #fff;
+  color: black;
 }
 
 .btn-stories-review>span {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
 }
 
@@ -2454,12 +2457,6 @@ menu
   color: #5b5b5b;
   font-size: 12px;
   margin-bottom: 30px;
-}
-
-.card-reviews-card>.reviews-card-top>p {
-  font-size: 20px;
-  color: black;
-  font-weight: 500;
 }
 
 .reviews-card-bottom {
@@ -4606,17 +4603,18 @@ portfolio
 }
 
 /* -------------thibash write to code about portfolio---------start */
+
 .mil-portfolio-card {
   display: block;
   position: relative;
-  border-radius: 20px;
+  border-radius: 10px;
   overflow: hidden;
-  height: 450px;
+  height: 350px;
 }
 
 .mil-port-cover-frame>img {
   width: 100%;
-  height: 450px;
+  height: 350px;
   transition: all 0.20s linear;
   object-position: center;
   object-fit: cover;
@@ -4624,29 +4622,24 @@ portfolio
 
 .mil-port-descr-cover {
   position: absolute;
-  bottom: 10px;
-  left: 10p;
-}
-
-.mil-port-descr-cover {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: #fff;
   box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.3);
-  width: 95%;
-  margin: 14px;
-  bottom: 0%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
+  width: 94%;
+  margin: 0 3%;
+  bottom: 10px;
+  left: 0;
+  right: 0;
   padding: 10px;
   border-radius: 10px;
   color: black;
+  box-sizing: border-box;
 }
 
 .mil-port-descr-cover>.mil-label {
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 500;
   color: black;
+  text-transform: uppercase;
 }
 
 .mil-port-descr-cover>.btn {
@@ -4669,50 +4662,13 @@ portfolio
 }
 
 
-@media screen and (max-width : 768px) {
+@media screen and (max-width : 430px) {
   .mil-portfolio-card {
-    height: 330px;
+    height: 300px;
   }
 
   .mil-port-cover-frame>img {
-    height: 330px;
-  }
-}
-
-@media screen and (max-width : 425px) {
-  .mil-port-descr-cover {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    flex-direction: column;
-    gap: 10px;
-    width: 90%;
-
-  }
-}
-@media screen and (min-width : 400px) and (max-width : 576px) {
-  .mil-port-descr-cover {
-    width: 93%;
-  }
-}
-@media screen and (min-width : 533px) and (max-width : 686px) {
-  .mil-port-descr-cover {
-    width: 95%;
-  }
-}
-@media screen and (min-width : 663px) and (max-width : 786px) {
-  .mil-port-descr-cover {
-    width: 96%;
-  }
-}
-@media screen and (min-width : 783px) and (max-width : 886px) {
-  .mil-port-descr-cover {
-    width: 96.5%;
-  }
-}
-@media screen and (min-width : 883px) and (max-width : 986px) {
-  .mil-port-descr-cover {
-    width: 97%;
+    height: 300px;
   }
 }
 
@@ -4722,6 +4678,159 @@ portfolio
 }
 
 /* -------------thibash write to code about portfolio---------end */
+
+/* Filter Tabs */
+.filter-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 30px;
+    padding: 10px 0;
+    border-bottom: 2px solid #eee;
+}
+
+.filter-btn {
+    padding: 8px 20px;
+    border: none;
+    background: none;
+    font-size: 16px;
+    font-weight: 500;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+}
+
+.filter-btn:hover {
+    color: #000;
+    background-color: #f0f0f0;
+}
+
+.filter-btn.active {
+    color: #fff;
+    background-color: #007bff;
+}
+
+/* Portfolio Grid */
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* Portfolio Card */
+.mil-portfolio-card {
+    display: block;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 350px;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+}
+
+.mil-portfolio-card:hover {
+    transform: translateY(-5px);
+}
+
+.mil-port-cover-frame {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.mil-port-cover-frame>img {
+    width: 100%;
+    height: 100%;
+    transition: all 0.3s ease;
+    object-position: center;
+    object-fit: cover;
+}
+
+.mil-portfolio-card:hover .mil-port-cover-frame>img {
+    transform: scale(1.05);
+}
+
+/* Description Box - Your CSS */
+.mil-port-descr-cover {
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.3);
+    width: 94%;
+    margin: 0 3%;
+    bottom: 15px;
+    left: 0;
+    right: 0;
+    padding: 15px;
+    border-radius: 10px;
+    color: black;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.mil-portfolio-card:hover .mil-port-descr-cover {
+    bottom: 20px;
+    box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.4);
+}
+
+.mil-port-descr-cover h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mil-port-descr-cover p {
+    font-size: 14px;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Hide items initially for filtering */
+.portfolio-item {
+    transition: all 0.4s ease;
+}
+
+.portfolio-item.hide {
+    display: none;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .portfolio-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+    }
+
+    .mil-portfolio-card {
+        height: 300px;
+    }
+
+    .filter-tabs {
+        gap: 5px;
+    }
+
+    .filter-btn {
+        padding: 6px 15px;
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .portfolio-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mil-portfolio-card {
+        height: 280px;
+    }
+}
+
 
 /***************************
 
