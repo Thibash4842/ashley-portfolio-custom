@@ -35,7 +35,11 @@ $smtp_username = 'projecttp4248@gmail.com';
 $smtp_password = 'sjss ilaw kzkg gved';
 $from_email    = 'noreply@idlemind.com';
 $from_name     = 'Idlemind';
-$recipient     = 'projecttp4248@gmail.com';
+
+// Recipient email address (where enquiries will be sent)
+// $recipient     = 'projecttp4248@gmail.com';
+$recipient     = 'info@idlemind.in';
+$cc_email      = 'idlemindstudioz@gmail.com'; // CC email added
 
 // Only accept POST requests
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
@@ -169,7 +173,7 @@ $body = "
 </html>";
 
 // Plain text version
-$altBody = "New Enquiry\n\nName: $name\nEmail: $email\nPhone: $phone\nMessage: $message\nSource: Idlemind Website";
+$altBody = "New Enquiry\n\nName: $name\nEmail: $email\nPhone: $phone\nMessage: $message\nCC: idlemindstudioz@gmail.com\nSource: Idlemind Website";
 
 try {
     // Send main email
@@ -184,7 +188,13 @@ try {
     $mail->CharSet    = PHPMailer::CHARSET_UTF8;
     
     $mail->setFrom($from_email, $from_name);
-    $mail->addAddress($recipient);
+
+    // Main recipient
+    $mail->addAddress($recipient); // info@idlemind.in
+
+    // === ADDED: CC to idlemindstudioz@gmail.com ===
+    $mail->addCC($cc_email); // idlemindstudioz@gmail.com
+    
     $mail->addReplyTo($email, $name);
     
     $mail->isHTML(true);
