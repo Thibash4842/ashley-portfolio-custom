@@ -1318,10 +1318,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     item.classList.remove('hide');
                 } else {
                     // Get item category
-                    const itemCategory = item.getAttribute('data-category');
+                    const itemCategory = item.getAttribute('data-category').split(' ');
 
                     // Show/hide based on category match
-                    if (itemCategory === filterValue) {
+                    if (itemCategory.includes(filterValue)) {
                         item.classList.remove('hide');
                     } else {
                         item.classList.add('hide');
