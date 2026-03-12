@@ -4687,6 +4687,8 @@ portfolio
     margin-bottom: 30px;
     padding: 10px 0;
     border-bottom: 2px solid #eee;
+    justify-content: center;
+    align-items: center;
 }
 
 .filter-btn {
