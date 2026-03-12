@@ -521,7 +521,10 @@ $(function () {
     progressbar
 
     ***************************/
-
+    // Kill existing progress bar animations first
+    ScrollTrigger.getAll().forEach(trigger => {
+        trigger.kill(true);
+    });
     gsap.to('.mil-progress', {
         height: '100%',
         ease: 'sine',
@@ -534,6 +537,10 @@ $(function () {
     scroll animations
 
     ***************************/
+    // Kill existing scroll triggers before creating new ones
+    ScrollTrigger.getAll().forEach(trigger => {
+        trigger.kill(true);
+    });
 
     const appearance = document.querySelectorAll(".mil-up");
 
@@ -800,6 +807,12 @@ $(function () {
     ------------------------------------------------------------
     ----------------------------------------------------------*/
     document.addEventListener("swup:contentReplaced", function () {
+        ScrollTrigger.getAll().forEach(trigger => {
+            trigger.kill(true);
+        });
+
+        // Kill all GSAP animations
+        gsap.globalTimeline.clear();
 
         $('html, body').animate({
             scrollTop: 0,
@@ -1025,7 +1038,10 @@ $(function () {
         scroll animations
 
         ***************************/
-
+        // CRITICAL FIX: Kill old scroll triggers before creating new ones
+        ScrollTrigger.getAll().forEach(trigger => {
+            trigger.kill(true);
+        });
         const appearance = document.querySelectorAll(".mil-up");
 
         appearance.forEach((section) => {
@@ -1300,7 +1316,6 @@ function toggleSubmit(checkbox) {
 filter card
 **************************/
 
-// Portfolio filter initialization function (DEFINED HERE)
 function initPortfolioFilters() {
     // Get all filter buttons and portfolio items
     const filterButtons = document.querySelectorAll('.filter-btn');
@@ -1308,6 +1323,14 @@ function initPortfolioFilters() {
 
     // Exit if no filter buttons or portfolio items found
     if (!filterButtons.length || !portfolioItems.length) return;
+
+    // Store original display values
+    portfolioItems.forEach(item => {
+        if (!item.hasAttribute('data-original-display')) {
+            const computedStyle = window.getComputedStyle(item);
+            item.setAttribute('data-original-display', computedStyle.display);
+        }
+    });
 
     // Remove existing event listeners by cloning and replacing buttons
     filterButtons.forEach(button => {
@@ -1334,24 +1357,38 @@ function initPortfolioFilters() {
 
             // Filter items
             portfolioItems.forEach(item => {
-                if (filterValue === 'all') {
-                    // Show all items
-                    item.classList.remove('hide');
+                if (filterValue === 'all' || filterValue === '*') {
+                    // Show all items - use original display value
+                    item.style.display = item.getAttribute('data-original-display') || 'block';
+                    item.classList.remove('hide', 'hidden', 'mil-hidden');
                 } else {
                     // Get item category
                     const itemCategory = item.getAttribute('data-category');
                     if (itemCategory) {
                         const categories = itemCategory.split(' ');
-
+                        
                         // Show/hide based on category match
                         if (categories.includes(filterValue)) {
-                            item.classList.remove('hide');
+                            item.style.display = item.getAttribute('data-original-display') || 'block';
+                            item.classList.remove('hide', 'hidden', 'mil-hidden');
                         } else {
+                            item.style.display = 'none';
                             item.classList.add('hide');
                         }
                     }
                 }
             });
+
+            // Trigger resize for any responsive elements
+            window.dispatchEvent(new Event('resize'));
         });
     });
+
+    // Trigger initial filter to show all items
+    const activeButton = document.querySelector('.filter-btn.active') || freshFilterButtons[0];
+    if (activeButton) {
+        setTimeout(() => {
+            activeButton.click();
+        }, 100);
+    }
 }
