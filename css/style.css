@@ -1632,18 +1632,14 @@ frame
 
 ------------------------------------------- */
 .mil-logo {
-  font-size: 35px;
-  font-weight: 500;
-  line-height: 100%;
-  width: 150px;
-  height: 40px;
+  width: 180px;
+  height: 60px;
 }
 
 @media screen and (max-width: 992px) {
   .mil-logo {
-    font-size: 30px;
-    width: 120px;
-    height: 30px;
+    width: 130px;
+    height: 46px;
   }
 }
 
@@ -3745,7 +3741,7 @@ revievs
 }
 
 .mil-revi-pagination .swiper-pagination-bullet .mil-custom-dot {
-  background-color: red;
+  background-color: transparent;
   width: 90px;
   height: 90px;
   border-radius: 50%;
@@ -3763,32 +3759,25 @@ revievs
 }
 
 .mil-revi-pagination .swiper-pagination-bullet .mil-custom-dot.mil-slide-1 {
-  background-image: url(../img/faces/reviewer\ 01.jpg);
+  background-image: url(../img/partners/Pakwan-Logo.png);
 }
 
 .mil-revi-pagination .swiper-pagination-bullet .mil-custom-dot.mil-slide-2 {
-  background-image: url(../img/faces/reviewer\ 02.jpg);
+  background-image: url(../img/partners/Spica-Logo-1.png);
 }
 
 .mil-revi-pagination .swiper-pagination-bullet .mil-custom-dot.mil-slide-3 {
-  background-image: url(../img/faces/reviewer\ 03.jpg);
+  background-image: url(../img/partners/Enmac-Logo.png);
 }
 
 .mil-revi-pagination .swiper-pagination-bullet .mil-custom-dot.mil-slide-4 {
-  background-image: url(../img/faces/reviewer\ 04.jpg);
+  background-image: url(../img/partners/mystic\ floorz\ logo.png);
 }
 
 .mil-revi-pagination .swiper-pagination-bullet .mil-custom-dot.mil-slide-5 {
-  background-image: url(../img/faces/reviewer\ 05.jpg);
+  background-image: url(../img/partners/Raza-logo.png);
 }
 
-.mil-revi-pagination .swiper-pagination-bullet .mil-custom-dot.mil-slide-6 {
-  background-image: url(../img/faces/reviewer\ 06.jpg);
-}
-
-.mil-revi-pagination .swiper-pagination-bullet .mil-custom-dot.mil-slide-7 {
-  background-image: url(../img/faces/reviewer\ 07.jpg);
-}
 
 .mil-revi-pagination .swiper-pagination-bullet.swiper-pagination-bullet-active {
   -webkit-box-shadow: inset 0 0 0 4px rgb(255, 152, 0);
@@ -4678,6 +4667,10 @@ portfolio
 }
 
 /* -------------thibash write to code about portfolio---------end */
+
+.mil-portfolio-works {
+  min-height: 100vh;
+}
 
 /* Filter Tabs */
 .filter-tabs {

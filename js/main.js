@@ -521,10 +521,7 @@ $(function () {
     progressbar
 
     ***************************/
-    // Kill existing progress bar animations first
-    ScrollTrigger.getAll().forEach(trigger => {
-        trigger.kill(true);
-    });
+
     gsap.to('.mil-progress', {
         height: '100%',
         ease: 'sine',
@@ -803,13 +800,6 @@ $(function () {
     ------------------------------------------------------------
     ----------------------------------------------------------*/
     document.addEventListener("swup:contentReplaced", function () {
-        // CRITICAL FIX: Kill all existing ScrollTrigger instances to prevent memory leaks
-        ScrollTrigger.getAll().forEach(trigger => {
-            trigger.kill(true);
-        });
-
-        // Kill all GSAP animations
-        gsap.globalTimeline.clear();
 
         $('html, body').animate({
             scrollTop: 0,
@@ -1035,10 +1025,6 @@ $(function () {
         scroll animations
 
         ***************************/
-        // CRITICAL FIX: Kill old scroll triggers before creating new ones
-        ScrollTrigger.getAll().forEach(trigger => {
-            trigger.kill(true);
-        });
 
         const appearance = document.querySelectorAll(".mil-up");
 
