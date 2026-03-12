@@ -29,7 +29,7 @@ $(function () {
     // Initialize contact form on page load and after transitions
     initContactForm();
     initPortfolioFilters(); // Initialize filters on page load
-    swup.on('contentReplaced', function() {
+    swup.on('contentReplaced', function () {
         initContactForm();
         initPortfolioFilters(); // Re-initialize filters after Swup navigation
     });
@@ -84,7 +84,7 @@ $(function () {
 
     // Initialize contact form
     function initContactForm() {
-         $('#contactForm').off('submit').on('submit', function (e) {
+        $('#contactForm').off('submit').on('submit', function (e) {
             e.preventDefault();
 
             var $form = $(this);
@@ -521,6 +521,10 @@ $(function () {
     progressbar
 
     ***************************/
+    // Kill existing progress bar animations first
+    ScrollTrigger.getAll().forEach(trigger => {
+        trigger.kill(true);
+    });
     gsap.to('.mil-progress', {
         height: '100%',
         ease: 'sine',
@@ -799,6 +803,13 @@ $(function () {
     ------------------------------------------------------------
     ----------------------------------------------------------*/
     document.addEventListener("swup:contentReplaced", function () {
+        // CRITICAL FIX: Kill all existing ScrollTrigger instances to prevent memory leaks
+        ScrollTrigger.getAll().forEach(trigger => {
+            trigger.kill(true);
+        });
+
+        // Kill all GSAP animations
+        gsap.globalTimeline.clear();
 
         $('html, body').animate({
             scrollTop: 0,
@@ -811,30 +822,6 @@ $(function () {
                 ScrollTrigger.refresh()
             },
         });
-
-        // Re-run preloader when returning to homepage
-        if ($('.mil-preloader').length) {
-            $('.mil-preloader').removeClass('mil-hidden');
-            var timeline = gsap.timeline();
-            timeline.to(".mil-preloader-animation", { opacity: 1 });
-            timeline.fromTo(".mil-animation-1 .mil-h3", { y: "30px", opacity: 0 }, { y: "0px", opacity: 1, stagger: 0.4 });
-            timeline.to(".mil-animation-1 .mil-h3", { opacity: 0, y: '-30' }, "+=.3");
-            timeline.fromTo(".mil-reveal-box", 0.1, { opacity: 0 }, { opacity: 1, x: '-30' });
-            timeline.to(".mil-reveal-box", 0.45, { width: "100%", x: 0 }, "+=.1");
-            timeline.to(".mil-reveal-box", { right: "0" });
-            timeline.to(".mil-reveal-box", 0.3, { width: "0%" });
-            timeline.fromTo(".mil-animation-2 .mil-h3", { opacity: 0 }, { opacity: 1 }, "-=.5");
-            timeline.to(".mil-animation-2 .mil-h3", 0.6, { opacity: 0, y: '-30' }, "+=.5");
-            timeline.to(".mil-preloader", 0.8, { opacity: 0, ease: 'sine' }, "+=.2");
-            timeline.fromTo(".mil-up", 0.8, { opacity: 0, y: 40, scale: .98, ease: 'sine' }, { 
-                y: 0, 
-                opacity: 1, 
-                scale: 1,
-                onComplete: function () {
-                    $('.mil-preloader').addClass("mil-hidden");
-                }
-            }, "-=1");
-        }
 
         /***************************
 
@@ -1048,6 +1035,10 @@ $(function () {
         scroll animations
 
         ***************************/
+        // CRITICAL FIX: Kill old scroll triggers before creating new ones
+        ScrollTrigger.getAll().forEach(trigger => {
+            trigger.kill(true);
+        });
 
         const appearance = document.querySelectorAll(".mil-up");
 
@@ -1328,7 +1319,7 @@ function initPortfolioFilters() {
     // Get all filter buttons and portfolio items
     const filterButtons = document.querySelectorAll('.filter-btn');
     const portfolioItems = document.querySelectorAll('.portfolio-item');
-    
+
     // Exit if no filter buttons or portfolio items found
     if (!filterButtons.length || !portfolioItems.length) return;
 
@@ -1337,15 +1328,15 @@ function initPortfolioFilters() {
         const newButton = button.cloneNode(true);
         button.parentNode.replaceChild(newButton, button);
     });
-    
+
     // Get fresh references after cloning
     const freshFilterButtons = document.querySelectorAll('.filter-btn');
-    
+
     // Add click event to each filter button
     freshFilterButtons.forEach(button => {
         button.addEventListener('click', (e) => {
             e.preventDefault();
-            
+
             // Remove active class from all buttons
             freshFilterButtons.forEach(btn => btn.classList.remove('active'));
 
@@ -1365,7 +1356,7 @@ function initPortfolioFilters() {
                     const itemCategory = item.getAttribute('data-category');
                     if (itemCategory) {
                         const categories = itemCategory.split(' ');
-                        
+
                         // Show/hide based on category match
                         if (categories.includes(filterValue)) {
                             item.classList.remove('hide');
