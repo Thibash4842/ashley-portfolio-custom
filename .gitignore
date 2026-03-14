@@ -1,20 +1,29 @@
-# Dependencies
-node_modules/
-package-lock.json
+# Configuration (IMPORTANT - contains passwords!)
+config.php
 
-# Environment files
-.env
-.env.local
-.env.production
-
-# IDE
+# IDE settings
 .vscode/
 .idea/
+*.sublime-*
 
 # OS files
 .DS_Store
 Thumbs.db
+desktop.ini
 
-# Logs
+# Log files
 *.log
-npm-debug.log*
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# SCSS cache (if you use Sass)
+.sass-cache/
+/scss/.sass-cache/
+
+# CSS source maps (optional)
+*.css.map
