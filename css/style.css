@@ -3763,23 +3763,23 @@ revievs
 }
 
 .mil-revi-pagination .swiper-pagination-bullet .mil-custom-dot.mil-slide-1 {
-  background-image: url(../img/faces/reviewer\ 01.jpg);
+  background-image: url(../img/faces/testmonial-reviewer-01.jpeg);
 }
 
 .mil-revi-pagination .swiper-pagination-bullet .mil-custom-dot.mil-slide-2 {
-  background-image: url(../img/faces/reviewer\ 06.jpg);
+  background-image: url(../img/faces/testmonial-reviewer-02.jpeg);
 }
 
 .mil-revi-pagination .swiper-pagination-bullet .mil-custom-dot.mil-slide-3 {
-  background-image: url(../img/faces/reviewer\ 07.jpg);
+  background-image: url(../img/faces/testmonial-reviewer-03.jpeg);
 }
 
 .mil-revi-pagination .swiper-pagination-bullet .mil-custom-dot.mil-slide-4 {
-  background-image: url(../img/faces/reviewer\ 04.jpg);
+  background-image: url(../img/faces/testmonial-reviewer-05.jpeg);
 }
 
 .mil-revi-pagination .swiper-pagination-bullet .mil-custom-dot.mil-slide-5 {
-  background-image: url(../img/faces/reviewer\ 08.jpg);
+  background-image: url(../img/faces/testmonial-reviewer-04.jpeg);
 }
 
 
@@ -5861,3 +5861,36 @@ html.is-animating .mil-menu-frame {
 }
 
 /* --------------------------------------- */
+.privacy-header {
+  text-align: center;
+  padding : 20px;
+}
+.privacy-header > .pri-heading {
+  padding-bottom: 20px;
+}
+
+.privacy-section-block > ul {
+  margin : 20px 40px;
+}
+
+.privacy-highlight {
+  color: #000;
+  padding: 10px 0px;
+}
+
+.contact-list > li {
+  list-style: none;
+}
+.contact-list > li > i {
+  color : orange;
+}
+.privacy-footer > a {
+  margin-top: 30px;
+  justify-content: start;
+}
+
+@media screen and (max-width : 350px) {
+  .contact-list > li {
+    display : flex;
+  }
+}
