@@ -746,6 +746,9 @@ button
     margin-left: 25px;
   }
 }
+/* -------------------------------------------
+review
+---------------------------------------------*/
 
 /* -------------------------------------------
 
@@ -1398,6 +1401,17 @@ spaces
   }
 }
 
+.mil-p-30-30 {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+@media screen and (max-width: 992px) {
+  .mil-p-30-30 {
+    padding-bottom: 30px;
+    padding-top: 30px;
+  }
+}
 .mil-p-0-30 {
   padding-bottom: 30px;
 }
@@ -1637,12 +1651,15 @@ frame
 
 ------------------------------------------- */
 .mil-logo {
+  font-size: 42px;
+  font-weight: 400;
   width: 170px;
   height: 55px;
 }
 
 @media screen and (max-width: 992px) {
   .mil-logo {
+    font-size: 30px;
     width: 120px;
     height: 40px;
   }
@@ -2196,15 +2213,6 @@ menu
 
 /* -----------------service-cover-banner start----------------------- */
 /* ---------------- thibash writeto code ------------------- */
-
-.service-cover-banner-content {
-  width: 100%;
-  min-height: 60vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 0px;
-}
 
 .cover-article-con-1>article {
   margin: 10px 0;
@@ -3226,9 +3234,17 @@ partners
   width: 200px;
 }
 
+.mil-partner-prestige-img > img {
+  height: 180px;
+  padding-bottom: 20px;
+}
 @media screen and (max-width: 500px) {
   .mil-partner-frame>img {
     width: 40vmin;
+  }
+  .mil-partner-prestige-img > img {
+    height: 36vmin;
+    padding-bottom: 20px;
   }
 }
 
@@ -3771,15 +3787,21 @@ revievs
 }
 
 .mil-revi-pagination .swiper-pagination-bullet .mil-custom-dot.mil-slide-3 {
-  background-image: url(../img/faces/testmonial-reviewer-03.jpeg);
+  background-image: url(../img/faces/testimonial-reviewer-07.png);
 }
 
 .mil-revi-pagination .swiper-pagination-bullet .mil-custom-dot.mil-slide-4 {
-  background-image: url(../img/faces/testmonial-reviewer-05.jpeg);
+  background-image: url(../img/faces/testmonial-reviewer-04.jpeg);
 }
 
 .mil-revi-pagination .swiper-pagination-bullet .mil-custom-dot.mil-slide-5 {
-  background-image: url(../img/faces/testmonial-reviewer-04.jpeg);
+  background-image: url(../img/faces/testimonial-reviewer-05.png);
+}
+.mil-revi-pagination .swiper-pagination-bullet .mil-custom-dot.mil-slide-6 {
+  background-image: url(../img/faces/testimonial-reviewer-06.png);
+}
+.mil-revi-pagination .swiper-pagination-bullet .mil-custom-dot.mil-slide-7 {
+  background-image: url(../img/faces/testmonial-reviewer-03.jpeg);
 }
 
 
@@ -4594,83 +4616,6 @@ portfolio
     display: flex;
   }
 }
-
-/* -------------thibash write to code about portfolio---------start */
-
-/* .mil-portfolio-card {
-  display: block;
-  position: relative;
-  border-radius: 10px;
-  overflow: hidden;
-  height: 350px;
-}
-
-.mil-port-cover-frame>img {
-  width: 100%;
-  height: 350px;
-  transition: all 0.20s linear;
-  object-position: center;
-  object-fit: cover;
-}
-
-.mil-port-descr-cover {
-  position: absolute;
-  background-color: #fff;
-  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.3);
-  width: 94%;
-  margin: 0 3%;
-  bottom: 10px;
-  left: 0;
-  right: 0;
-  padding: 10px;
-  border-radius: 10px;
-  color: black;
-  box-sizing: border-box;
-}
-
-.mil-port-descr-cover>.mil-label {
-  font-size: 16px;
-  font-weight: 500;
-  color: black;
-  text-transform: uppercase;
-}
-
-.mil-port-descr-cover>.btn {
-  background-color: #fff;
-  font-weight: 600;
-  padding: 3px 14px;
-  border: 1px solid #b7b7b7;
-  box-shadow: 0px 0px 10px rgb(130, 130, 130);
-  border-radius: 6px;
-  font-size: 14px;
-  color: black;
-}
-
-.mil-portfolio-card:hover>.mil-port-cover-frame {
-  border-radius: 16px;
-}
-
-.mil-portfolio-card:hover>.mil-port-cover-frame>img {
-  transform: scale(1.2);
-}
-
-
-@media screen and (max-width : 430px) {
-  .mil-portfolio-card {
-    height: 300px;
-  }
-
-  .mil-port-cover-frame>img {
-    height: 300px;
-  }
-}
-
-
-.back-to-portfolio {
-  text-align: left;
-} */
-
-/* -------------thibash write to code about portfolio---------end */
 
 /* Filter Tabs */
 .filter-tabs {
