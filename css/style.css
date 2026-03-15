@@ -1863,7 +1863,7 @@ menu
   top: 0;
   left: 0;
   width: 100%;
-  padding: 50px 60px;
+  padding: 30px 50px 50px 50px;
 }
 
 @media screen and (max-width: 1200px) {
