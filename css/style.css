@@ -121,7 +121,7 @@ body {
   display: flex;
 }
 
-.mil-vert-between {
+/* .mil-vert-between {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -133,8 +133,31 @@ body {
   -ms-flex-pack: justify;
   justify-content: space-between;
   height: 100%;
+} */
+
+.mil-vert-between {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row-reverse;
+  flex-direction: row-reverse;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  height: 100%;
 }
 
+@media screen and (max-width: 650px) {
+  .mil-vert-between {
+    flex-direction: column;
+    align-items: center;
+  }
+  .mil-vert-between > p{
+    text-align: center
+  }
+}
 @media screen and (max-width: 992px) {
   .mil-mobile-hidden {
     display: none;
@@ -1271,7 +1294,7 @@ spaces
 }
 
 .mil-mb-20 {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .mil-mb-30 {
@@ -3702,7 +3725,11 @@ social icons
   color: rgb(255, 152, 0);
 }
 
-
+@media screen and (max-width : 768px) {
+  .mil-social-icons li a {
+    font-size: 20px;
+  }
+}
 
 /* -------------------------------------------
 
@@ -4261,7 +4288,7 @@ footer
   color: orange;
 }
 
-.flex-sm-row-reverse {
+.footer-vertical-line {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding-top: 40px;
 }
@@ -4356,7 +4383,11 @@ footer
   }
 }
 
-
+@media screen and (max-width : 768px) {
+  .mil-md-br-none > br{
+    display: none;
+  }
+}
 /* -------------------------------------------
 
 portfolio
